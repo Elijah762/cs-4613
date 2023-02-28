@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 	
 	<!---REMOVE IF NOT INTERESTED -->
-<link rel="stylesheet" href="/assets/css/customStyle.css"> 
+<link rel="stylesheet" href="/cs-4613/final_project/Work_Jio/assets/css/customStyle.css">
 	
 	
 	<!------------------------------>

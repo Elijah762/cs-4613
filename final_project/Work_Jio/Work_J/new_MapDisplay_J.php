@@ -23,6 +23,7 @@
 		//$output = array();
 		//var_dump($result);
 		if ($result_Check > 0) {
+            console.log("HFEORG");
 			$i = 0;
 		   	while($rowData = mysqli_fetch_assoc($result)) {			
 				$arrayMarker[$i] = $rowData;
