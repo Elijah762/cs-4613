@@ -7,8 +7,8 @@
 	*/
 	/******************************DB ACCESS*********************************************/
 	$hostname="localhost";
-	$username="root";
-	$password="Medic203";
+	$username="DBuser";
+	$password="vqttDqsE*cBI_8(B";
 	$db="senior_design_db";
 	$mysqli= new mysqli($hostname, $username, $password, $db);
 	if (mysqli_connect_errno())
