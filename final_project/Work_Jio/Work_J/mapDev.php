@@ -67,7 +67,7 @@
 			<!-- TRIED TO MAKE IT COMPATIBLE WITH SMALLER SCREENS/ REDUCE MAP SIZE ---->
 			<div class="col-xl-2 col-md border d-sm-block overflow-auto" style="height: 890px; background-color: white;" >
             	<div class="row border-bottom"  >
-					<h5> <b>Simulation TEST Summary :)</b> </h5>
+					<h5> <b>Simulation Summary</b> </h5>
 				</div>
 				<!--FIGURE OUT SCROLL BAR FOR FUTURE USE -->
 				<!--<div class="row" id="#scrollSummary" class="overflow-auto">
@@ -81,7 +81,7 @@
 			</div>
 			<div class="col-xl-8 col-md border d-sm-block" style="background-color: white;">
 				<div class="row text-center border-bottom">
-					<h3><b>Simulation Map</b> </h3>
+					<h3><b>Simulation Map TESTING FERN BRANCH</b> </h3>
 				</div>
 				<div class="row">       
 					 <div id="map"> 
