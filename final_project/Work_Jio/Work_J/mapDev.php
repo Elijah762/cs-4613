@@ -81,7 +81,7 @@
 			</div>
 			<div class="col-xl-8 col-md border d-sm-block" style="background-color: white;">
 				<div class="row text-center border-bottom">
-					<h3><b>Simulation Map TESTING FERN BRANCH</b> </h3>
+					<h3><b>Simulation Map </b> </h3>
 				</div>
 				<div class="row">       
 					 <div id="map"> 
