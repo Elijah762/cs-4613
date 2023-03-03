@@ -23,7 +23,7 @@
 		//$output = array();
 		//var_dump($result);
 		if ($result_Check > 0) {
-            console.log("HFEORG");
+            echo "HFEORG";
 			$i = 0;
 		   	while($rowData = mysqli_fetch_assoc($result)) {			
 				$arrayMarker[$i] = $rowData;
@@ -357,116 +357,116 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 		//createMarkerDisplay();
 	}
 	/***********************************************************************************/
-	function markerOnClicked(i,markers, arraySum, summary, clicked) { 
-		//markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: arrayColors[4]}).bindPopup( "Manually Affected Node <br>" + summary[i] ).addTo(map); //= markersTemp[i];
-		console.log("BEFORE IF MARKERONCLICKED");
-		//markers[i].on('mouseover', function (e) {this.openPopup();}); //this.openPopup();  ?
-		//markers[i].on('mouseout', function (e) {this.closePopup();});
-		if (arraySum[i].node_active == 1) {
-		//******************JAVA TO PHP DATA FOR SIMULATION************************/
-			//console.log("ACRONYM INSIDE ARRAY: " +   arraySum[i].node_acronym );
-			let value = arraySum[i].node_acronym;
-			myJavascriptFunction(value);
+	// function markerOnClicked(i,markers, arraySum, summary, clicked) { 
+	// 	//markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: arrayColors[4]}).bindPopup( "Manually Affected Node <br>" + summary[i] ).addTo(map); //= markersTemp[i];
+	// 	console.log("BEFORE IF MARKERONCLICKED");
+	// 	//markers[i].on('mouseover', function (e) {this.openPopup();}); //this.openPopup();  ?
+	// 	//markers[i].on('mouseout', function (e) {this.closePopup();});
+	// 	if (arraySum[i].node_active == 1) {
+	// 	//******************JAVA TO PHP DATA FOR SIMULATION************************/
+	// 		//console.log("ACRONYM INSIDE ARRAY: " +   arraySum[i].node_acronym );
+	// 		let value = arraySum[i].node_acronym;
+	// 		myJavascriptFunction(value);
 
-			<?php //MEANT TO PASS VARIABLE NAME FOR DB LATER ON
-			if (!empty($_GET['name'] && $_GET['turnOff'] == "true")) {
+	// 		<?php //MEANT TO PASS VARIABLE NAME FOR DB LATER ON
+	// 		if (!empty($_GET['name'] && $_GET['turnOff'] == "true")) {
 				
-				$value_acronym = $_GET['name'];
-				$arrayQueue = [];
-				$index = 0;
-				$arrayQueue[$index] = $value_acronym;
-				greyMarkerStatus($value_acronym, $mysqli);
-				//HANDLES SIMULATION
-				mapSimulation($value_acronym,$arrayQueue,$index, $mysqli);
-				//CALLS AND ASSIGNS ARRAY WITH NEW DATA
-				$sum =  getNodeData($mysqli); 
-			}
-			//echo '<br>'; //DO NOT HAVE THESE OR IN SIMULATION
-			//echo '<br>';
-			//echo '<br>';
-			?>
+	// 			$value_acronym = $_GET['name'];
+	// 			$arrayQueue = [];
+	// 			$index = 0;
+	// 			$arrayQueue[$index] = $value_acronym;
+	// 			greyMarkerStatus($value_acronym, $mysqli);
+	// 			//HANDLES SIMULATION
+	// 			mapSimulation($value_acronym,$arrayQueue,$index, $mysqli);
+	// 			//CALLS AND ASSIGNS ARRAY WITH NEW DATA
+	// 			$sum =  getNodeData($mysqli); 
+	// 		}
+	// 		//echo '<br>'; //DO NOT HAVE THESE OR IN SIMULATION
+	// 		//echo '<br>';
+	// 		//echo '<br>';
+	// 		?>
 			
-			console.log("IF AFTER MARKERCLICKED");
-			/***********************SIMULATION*********************************/	
-			//HANDLES SIMULATION
-			//< ?php echo json_encode(mapSimulation($value_acronym,$arrayQueue,$index, $mysqli)); ?>; 
-			//CALLS AND ASSIGNS ARRAY WITH NEW DATA
-			//< ?php $sum =  getNodeData($mysqli); ?>
+	// 		console.log("IF AFTER MARKERCLICKED");
+	// 		/***********************SIMULATION*********************************/	
+	// 		//HANDLES SIMULATION
+	// 		//< ?php echo json_encode(mapSimulation($value_acronym,$arrayQueue,$index, $mysqli)); ?>; 
+	// 		//CALLS AND ASSIGNS ARRAY WITH NEW DATA
+	// 		//< ?php $sum =  getNodeData($mysqli); ?>
 			
 			
-			//THIS PREVENTS GOING INTO SECOND ELSE IF 
-			//myJavascriptFunction('');
+	// 		//THIS PREVENTS GOING INTO SECOND ELSE IF 
+	// 		//myJavascriptFunction('');
 			
-			//var arraySum = <?php //echo json_encode($sum); ?>;
-			const queryString = window.location.search;
-			// splits the parameters up
-			const urlParams = new URLSearchParams(queryString);
+	// 		//var arraySum = <?php //echo json_encode($sum); ?>;
+	// 		const queryString = window.location.search;
+	// 		// splits the parameters up
+	// 		const urlParams = new URLSearchParams(queryString);
 			
-			var arraySum2 = <?php echo json_encode($sum); ?>;
+	// 		var arraySum2 = <?php echo json_encode($sum); ?>;
 			
-			if (urlParams.has('name')) {
-				arraySum = arraySum2;
-			}
+	// 		if (urlParams.has('name')) {
+	// 			arraySum = arraySum2;
+	// 		}
 			
-			//revertJavascriptFunction();
-			//UPDATES MARKERS
-			console.log("BEFORE UPDATE MARKER IN == 1");
-			updateMarkerDisplay(i, arraySum, markers, summary);
-			//HANDLES MOUSE HOVERING
-			MarkerMouseHover(markers, arraySum);
-			/****************************/
-			return;
-		}
-		else if (arraySum[i].node_active == 0) {
-		//******************DATA FROM JAVASCRIPT TO PHP SIMULATION************************/
-			console.log("ELSE IF");
-			let value = arraySum[i].node_acronym;
-			//myJavascriptFunction(value);
+	// 		//revertJavascriptFunction();
+	// 		//UPDATES MARKERS
+	// 		console.log("BEFORE UPDATE MARKER IN == 1");
+	// 		updateMarkerDisplay(i, arraySum, markers, summary);
+	// 		//HANDLES MOUSE HOVERING
+	// 		MarkerMouseHover(markers, arraySum);
+	// 		/****************************/
+	// 		return;
+	// 	}
+	// 	else if (arraySum[i].node_active == 0) {
+	// 	//******************DATA FROM JAVASCRIPT TO PHP SIMULATION************************/
+	// 		console.log("ELSE IF");
+	// 		let value = arraySum[i].node_acronym;
+	// 		//myJavascriptFunction(value);
 
 			
 			
-			<?php //MEANT TO PASS VARIABLE NAME FOR DB LATER ON
-			if (!empty($_GET['name'] && $_GET['turnOff'] == "false")) {
-				$value_acronym = $_GET['name'];
-				$arrayQueue = [];
-				$index = 0;
-				$arrayQueue[$index] = $value_acronym;
-				revertMarkerStatus($value_acronym, $mysqli);
-				//HANDLES SIMULATION
-				//mapSimulation($value_acronym,$arrayQueue,$index, $mysqli);
-				//CALLS AND ASSIGNS ARRAY WITH NEW DATA
-				$sum =  getNodeData($mysqli); 
-			}	
-			?>
-			console.log("ELSE IF AFTER MARKERCLICKED");
-			//HANDLES SIMULATION
-			//< ?php echo json_encode(mapSimulation($value_acronym,$arrayQueue,$index, $mysqli)); ?>; 
-			//CALLS AND ASSIGNS ARRAY WITH NEW DATA
-			<?php $sum =  getNodeData($mysqli); ?>
-			//THIS PREVENTS GOING INTO IF 
-			//myJavascriptFunction('');
+	// 		<?php //MEANT TO PASS VARIABLE NAME FOR DB LATER ON
+	// 		if (!empty($_GET['name'] && $_GET['turnOff'] == "false")) {
+	// 			$value_acronym = $_GET['name'];
+	// 			$arrayQueue = [];
+	// 			$index = 0;
+	// 			$arrayQueue[$index] = $value_acronym;
+	// 			revertMarkerStatus($value_acronym, $mysqli);
+	// 			//HANDLES SIMULATION
+	// 			//mapSimulation($value_acronym,$arrayQueue,$index, $mysqli);
+	// 			//CALLS AND ASSIGNS ARRAY WITH NEW DATA
+	// 			$sum =  getNodeData($mysqli); 
+	// 		}	
+	// 		?>
+	// 		console.log("ELSE IF AFTER MARKERCLICKED");
+	// 		//HANDLES SIMULATION
+	// 		//< ?php echo json_encode(mapSimulation($value_acronym,$arrayQueue,$index, $mysqli)); ?>; 
+	// 		//CALLS AND ASSIGNS ARRAY WITH NEW DATA
+	// 		<?php $sum =  getNodeData($mysqli); ?>
+	// 		//THIS PREVENTS GOING INTO IF 
+	// 		//myJavascriptFunction('');
 			
-			//var arraySum = <?php //echo json_encode($sum); ?>;
+	// 		//var arraySum = <?php //echo json_encode($sum); ?>;
 			
-			const queryString = window.location.search;
-			// splits the parameters up
-			const urlParams = new URLSearchParams(queryString);
+	// 		const queryString = window.location.search;
+	// 		// splits the parameters up
+	// 		const urlParams = new URLSearchParams(queryString);
 			
-			var arraySum2 = <?php echo json_encode($sum); ?>;
+	// 		var arraySum2 = <?php echo json_encode($sum); ?>;
 			
-			if (urlParams.has('name')) {
-				arraySum = arraySum2;
-			}
+	// 		if (urlParams.has('name')) {
+	// 			arraySum = arraySum2;
+	// 		}
 			
-			revertJavascriptFunction(value);
-			//UPDATES MARKERS
-			console.log("BEFORE UPDATE MARKER IN == 0");
-			updateMarkerDisplay(i, arraySum, markers, summary);
-			//HANDLES MOUSE HOVERING
-			MarkerMouseHover(markers, arraySum);
-			return;
-		}
-	} //END OF FUNCTION: markerOnClicked();
+	// 		revertJavascriptFunction(value);
+	// 		//UPDATES MARKERS
+	// 		console.log("BEFORE UPDATE MARKER IN == 0");
+	// 		updateMarkerDisplay(i, arraySum, markers, summary);
+	// 		//HANDLES MOUSE HOVERING
+	// 		MarkerMouseHover(markers, arraySum);
+	// 		return;
+	// 	}
+	// } //END OF FUNCTION: markerOnClicked();
 	
 	function markersDisplayedClicked() {
 		for (let i = 0; i < arraySum.length; i++) { 
