@@ -139,6 +139,7 @@
 						data: {'input': "Success" }
 						}).done(function() {
 							alert('Reset Successful');
+							window.location.reload();
 						});
 					});
                  });
