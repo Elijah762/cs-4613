@@ -1,3 +1,5 @@
+
+
 <?php
 	/***
 	* 	FROM: JDP
@@ -468,12 +470,12 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 	// 	}
 	// } //END OF FUNCTION: markerOnClicked();
 	
-	function markersDisplayedClicked() {
-		for (let i = 0; i < arraySum.length; i++) { 
-			console.log("FOR LOOP MARKERONCLICKED");
-			markers[i] = markers[i].on('click', function(){markerOnClicked(i,markers, arraySum, summary, arraySum[i].node_active);}).addTo(map);
-		}	
-	}
+	// function markersDisplayedClicked() {
+	// 	for (let i = 0; i < arraySum.length; i++) { 
+	// 		console.log("FOR LOOP MARKERONCLICKED");
+	// 		markers[i] = markers[i].on('click', function(){markerOnClicked(i,markers, arraySum, summary, arraySum[i].node_active);}).addTo(map);
+	// 	}	
+	// }
 	/**************************FUNCTION EXECUTION***************************************/
 	//getTotalData();
 	//var arrayColors = getArrayColors();
@@ -489,10 +491,10 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 		const name = urlParams.get('name');
 		console.log("This is the name: " + name);
 	}
-	//else {
-	console.log("markersDisplayedClicked is ran");
-	markersDisplayedClicked();
-	//}
+	// //else {
+	// console.log("markersDisplayedClicked is ran");
+	// markersDisplayedClicked();
+	// //}
 	
 	//updateMarkerDisplay(i, arraySum, markers, summary);
 	/***********************************************************************************/
@@ -575,6 +577,14 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 	*/
 	
 	//*********************************************************//
+	L.shapefile('/cs-4613/final_project/Work_Jio/assets/shapefiles/NERC_Regions_EIA.zip', {
+    style: function(feature) {
+        return {
+            color: 'red',
+            weight: 2
+        };
+    }
+}).addTo(map);
 	
 </script>
 	
