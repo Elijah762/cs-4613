@@ -1,15 +1,13 @@
-
 <!doctype html>
 <html>
 <head>
+<title> Project Neuron </title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-	
-	<!---REMOVE IF NOT INTERESTED -->
-<link rel="stylesheet" href="/cs-4613/final_project/Work_Jio/assets/css/customStyle.css">
+<link rel="stylesheet" href="/cs-4613/final_project/Work_Jio/assets/css/styles.css">
 	
 	
 	<!------------------------------>
@@ -30,39 +28,42 @@
 <!--<script src="./assets/js/jquery-1.12.4.js"></script> -->
 <!--------------------------------------------->
 <!-------------------------------------->
-<title> Project Neuron </title>
+
+<style>
+	body {margin: 0; width: 100%; background-color: #384E77; }
+</style>
+
 </head>
-    
-<body style="margin: 0; width: 100%;background-color: #384E77;">
+<body>
     <!-- Setting up the Navigation menu --->
-	
 	<div>
-		<nav class="navbar navbar-expand-lg navbar-light py-2 fixed-top" style="background-color: #18314F;">
-        <!-- meant to hide image if screen size is reduced -->
+		<nav class="navbar navbar-expand-lg navbar-light py-2 fixed-top"
+			style="background-color: #18314F;">
 			<div class="container-fluid">
-				<!--<img class="img-fluid w-30 ps-4 d-sm-block d-flex justify-content-md-start"src="../img/nsa_img.PNG" alt="" /> -->
-				<img class="img-fluid d-flex ps-4 justify-content-md-start"src="../assets/img/nsa_img.PNG" alt="" /> 
-				<!--<div class=" navbar-brand text-white mb-0 ps-3 h1 d-flex justify-content-around"> Motto: "Defending Our Nation. Securing the Future."</div> -->
-				<div class="navbar-brand text-white mb-0 pe-4 h1 d-flex justify-content-around">Project Neuron</div>
-				
-				<!--
-				<div class="col-sm-2">
-					<img class="img-fluid w-30 ps-2 d-sm-block align-items-center" src="../img/nsa_img.PNG" alt="" /> <!-- d-none -- >
-				</div>
-				<div class="col-sm-2">
-					<!--- fix name displayed in changing screen size -- >
-					<span class="navbar-brand text-white mb-0 ps-2 h1 align-items-center">"No Such Agency"</span>
-				</div>
-				<div class="col-sm-2">
-					<!--- fix name displayed in changing screen size -- >
-					<span class="navbar-brand text-white mb-0 ps-2 h1 align-items-center">Project Neuron</span>
-				</div>
-				-->
+				<img class="img-fluid d-flex ps-4 justify-content-md-start"
+					src="../assets/img/nsa_img.PNG"
+					alt="" /> 
+				<a class="navbar-brand text-white"
+				href="mapDev.php">Project Nueron</a>
+				<ul class="navbar-nav">
+					<li class="nav-item">
+						<a class="nav-link text-white"
+						href="purpose.php">Purpose</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link text-white"
+						href="definitions.php">Definitions</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link text-white"
+						href="sources.php">Sources</a>
+					</li>
+				</ul>
 			</div>
 		</nav>
 	</div> 
 			
-    <div class="container pt-3 mt-5 align-content-center"> <!--style="background-color: white;"> -->
+    <div class="container pt-3 mt-5 align-content-center">
     	<div class="row no-gutters mr-3" >
 			<!-- TRIED TO MAKE IT COMPATIBLE WITH SMALLER SCREENS/ REDUCE MAP SIZE ---->
 			<div class="col-xl-2 col-md border d-sm-block overflow-auto" style="height: 890px; background-color: white;" >
