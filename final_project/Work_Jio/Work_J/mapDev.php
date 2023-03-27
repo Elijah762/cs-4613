@@ -27,6 +27,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js" type="text/javascript"></script>
 <!--<script src="./assets/js/jquery-1.12.4.js"></script> -->
 <!--------------------------------------------->
+<link rel="stylesheet" href="/cs-4613/final_project/Work_Jio/assets/leaflet.shapefile-gh-pages/gh-pages.css">
+<script src="/cs-4613/final_project/Work_Jio/assets/leaflet.shapefile-gh-pages/leaflet.shpfile.js"></script>
+<script src="/cs-4613/final_project/Work_Jio/assets/leaflet.shapefile-gh-pages/shp.js"></script>
 <!-------------------------------------->
 
 <style>
@@ -82,7 +85,7 @@
 			</div>
 			<div class="col-xl-8 col-md border d-sm-block" style="background-color: white;">
 				<div class="row text-center border-bottom">
-					<h3><b>Simulation Map</b> </h3>
+					<h3><b>Simulation Map </b> </h3>
 				</div>
 				<div class="row">       
 					 <div id="map"> 
@@ -140,6 +143,7 @@
 						data: {'input': "Success" }
 						}).done(function() {
 							alert('Reset Successful');
+							window.location.reload();
 						});
 					});
                  });

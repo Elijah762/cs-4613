@@ -1,3 +1,5 @@
+
+
 <?php
 	/***
 	* 	FROM: JDP
@@ -23,7 +25,7 @@
 		//$output = array();
 		//var_dump($result);
 		if ($result_Check > 0) {
-            console.log("HFEORG");
+            echo "HFEORG";
 			$i = 0;
 		   	while($rowData = mysqli_fetch_assoc($result)) {			
 				$arrayMarker[$i] = $rowData;
@@ -489,10 +491,10 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 		const name = urlParams.get('name');
 		console.log("This is the name: " + name);
 	}
-	//else {
-	console.log("markersDisplayedClicked is ran");
-	markersDisplayedClicked();
-	//}
+	// //else {
+	// console.log("markersDisplayedClicked is ran");
+	// markersDisplayedClicked();
+	// //}
 	
 	//updateMarkerDisplay(i, arraySum, markers, summary);
 	/***********************************************************************************/
@@ -575,6 +577,14 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 	*/
 	
 	//*********************************************************//
+	L.shapefile('/cs-4613/final_project/Work_Jio/assets/shapefiles/NERC_Regions_EIA.zip', {
+    style: function(feature) {
+        return {
+            color: 'red',
+            weight: 2
+        };
+    }
+}).addTo(map);
 	
 </script>
 	
