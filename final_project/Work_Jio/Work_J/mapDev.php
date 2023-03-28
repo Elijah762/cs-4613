@@ -98,7 +98,7 @@
 			</div>
 			<div class="col-xl-2 col-md border d-sm-block" style="background-color: white;">
             	<div class="row border-bottom" >
-					<h5><b>Simulation Key</b> </h5> 
+					<h5><b>Simulation test Key</b> </h5> 
 				</div>
 				<div class="row">
 					<ul>
