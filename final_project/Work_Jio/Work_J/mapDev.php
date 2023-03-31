@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-<title> Project Neuron </title>
+<title>Project Neuron</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,22 +27,33 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js" type="text/javascript"></script>
 <!--<script src="./assets/js/jquery-1.12.4.js"></script> -->
 <!--------------------------------------------->
+<link rel="stylesheet" href="/cs-4613/final_project/Work_Jio/assets/leaflet.shapefile-gh-pages/gh-pages.css">
+<script src="/cs-4613/final_project/Work_Jio/assets/leaflet.shapefile-gh-pages/leaflet.shpfile.js"></script>
+<script src="/cs-4613/final_project/Work_Jio/assets/leaflet.shapefile-gh-pages/shp.js"></script>
 <!-------------------------------------->
 
 <style>
-	body {margin: 0; width: 100%; background-color: #384E77; }
+	body {
+		margin: 0; width: 100%; background-color: #262626;
+	}
+	.leaflet-popup-content-wrapper,.leaflet-popup-tip {
+		background: white;
+		color: black;
+		border: none;
+		box-shadow: none;
+		border-radius: 0px;
+	}
 </style>
 
 </head>
 <body>
-    <!-- Setting up the Navigation menu --->
 	<div>
 		<nav class="navbar navbar-expand-lg navbar-light py-2 fixed-top"
-			style="background-color: #18314F;">
+			style="background-color: #333333;">
 			<div class="container-fluid">
 				<img class="img-fluid d-flex ps-4 justify-content-md-start"
 					src="../assets/img/nsa_img.PNG"
-					alt="" /> 
+					alt="" />
 				<a class="navbar-brand text-white"
 				href="mapDev.php">Project Nueron</a>
 				<ul class="navbar-nav">
@@ -63,11 +74,11 @@
 		</nav>
 	</div> 
 			
-    <div class="container pt-3 mt-5 align-content-center">
+    <div class="container-fluid pt-4 mt-5" id="table">
     	<div class="row no-gutters mr-3" >
 			<!-- TRIED TO MAKE IT COMPATIBLE WITH SMALLER SCREENS/ REDUCE MAP SIZE ---->
-			<div class="col-xl-2 col-md border d-sm-block overflow-auto" style="height: 890px; background-color: white;" >
-            	<div class="row border-bottom"  >
+			<div class="col-xl-2" style="height: 1150px; background-color: #f2efe9;" >
+            	<div class="row">
 					<h5> <b>Simulation Summary</b> </h5>
 				</div>
 				<!--FIGURE OUT SCROLL BAR FOR FUTURE USE -->
@@ -80,10 +91,10 @@
 				<!--</div> 
 				</div>-->
 			</div>
-			<div class="col-xl-8 col-md border d-sm-block" style="background-color: white;">
-				<div class="row text-center border-bottom">
-					<h3><b>Simulation Map</b> </h3>
-				</div>
+			<div class="col-xl-8" style="background-color: #f2efe9;">
+				<!-- <div class="row text-center">
+					<h3><b>Simulation Map </b> </h3>
+				</div> -->
 				<div class="row">       
 					 <div id="map"> 
 						 
@@ -93,8 +104,8 @@
 					</div>
 				</div>	
 			</div>
-			<div class="col-xl-2 col-md border d-sm-block" style="background-color: white;">
-            	<div class="row border-bottom" >
+			<div class="col-xl-2" style="background-color: #f2efe9;">
+            	<div class="row">
 					<h5><b>Simulation Key</b> </h5> 
 				</div>
 				<div class="row">
@@ -140,6 +151,7 @@
 						data: {'input': "Success" }
 						}).done(function() {
 							alert('Reset Successful');
+							window.location.reload();
 						});
 					});
                  });

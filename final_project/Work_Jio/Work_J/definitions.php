@@ -1,3 +1,3 @@
 <?php
-	echo "<h1>just a place holder for definitions.php</h1>";
+	echo "<h1>definitions.php</h1>";
 ?>
