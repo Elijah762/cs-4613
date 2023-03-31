@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-<title> Project Neuron </title>
+<title>Project Neuron</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,19 +33,36 @@
 <!-------------------------------------->
 
 <style>
-	body {margin: 0; width: 100%; background-color: #384E77; }
+	/* body {margin: 0; width: 100%; background-color: #384E77; } */
+	body {
+		margin: 0; width: 100%; background-color: #262626;
+	}
+	/* .leaflet-popup-content-wrapper,.leaflet-popup-tip {
+		background: white;
+		color: black;
+		border: none;
+		box-shadow: none;
+		border-radius: 0px;
+	} */
+	.my-label {
+		background: white;
+		color: black;
+		background: transparent;
+		border: none;
+		box-shadow: none;
+		border-radius: 0px;
+	}
 </style>
 
 </head>
 <body>
-    <!-- Setting up the Navigation menu --->
 	<div>
 		<nav class="navbar navbar-expand-lg navbar-light py-2 fixed-top"
-			style="background-color: #18314F;">
+			style="background-color: #333333;">
 			<div class="container-fluid">
 				<img class="img-fluid d-flex ps-4 justify-content-md-start"
 					src="../assets/img/nsa_img.PNG"
-					alt="" /> 
+					alt="" />
 				<a class="navbar-brand text-white"
 				href="mapDev.php">Project Nueron</a>
 				<ul class="navbar-nav">
@@ -66,11 +83,11 @@
 		</nav>
 	</div> 
 			
-    <div class="container pt-3 mt-5 align-content-center">
+    <div class="container-fluid pt-4 mt-5" id="table">
     	<div class="row no-gutters mr-3" >
 			<!-- TRIED TO MAKE IT COMPATIBLE WITH SMALLER SCREENS/ REDUCE MAP SIZE ---->
-			<div class="col-xl-2 col-md border d-sm-block overflow-auto" style="height: 890px; background-color: white;" >
-            	<div class="row border-bottom"  >
+			<div class="col-xl-2" style="height: 1150px; background-color: #f2efe9;" >
+            	<div class="row">
 					<h5> <b>Simulation Summary</b> </h5>
 				</div>
 				<!--FIGURE OUT SCROLL BAR FOR FUTURE USE -->
@@ -83,10 +100,10 @@
 				<!--</div> 
 				</div>-->
 			</div>
-			<div class="col-xl-8 col-md border d-sm-block" style="background-color: white;">
-				<div class="row text-center border-bottom">
+			<div class="col-xl-8" style="background-color: #f2efe9;">
+				<!-- <div class="row text-center">
 					<h3><b>Simulation Map </b> </h3>
-				</div>
+				</div> -->
 				<div class="row">       
 					 <div id="map"> 
 						 
@@ -96,8 +113,8 @@
 					</div>
 				</div>	
 			</div>
-			<div class="col-xl-2 col-md border d-sm-block" style="background-color: white;">
-            	<div class="row border-bottom" >
+			<div class="col-xl-2" style="background-color: #f2efe9;">
+            	<div class="row">
 					<h5><b>Simulation Key</b> </h5> 
 				</div>
 				<div class="row">

@@ -56,12 +56,21 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 	***/
 	//------------------------------- CREATES AND CALLS MAP API --------------------------------------------//
 	const map = L.map('map', {
-			center: [41.1667, -100.1667],
+			center: [42.1867, -98.1667],
 			zoom: 3.5
   	});
 	var baseMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' });
 
 	baseMap.addTo(map);
+
+	const popup = L.popup({
+		closeButton: false,
+		autoClose: false
+	})
+	.setLatLng([55.1867, -98.1667])
+	.setContent('<p>Simulation Map</p>')
+	.openOn(map);
+
 	//console.log("HERE:"+ baseMap);
 	//*********************************ASSIGNS VALUES FROM PHP TO JAVASCRIPT**********************************************//
 	var arraySum = <?php echo json_encode($sum); ?>; //echos out 'Array's contents maybe for loop to get all of data? maybe?
