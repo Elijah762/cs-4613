@@ -92,15 +92,9 @@
 				</div>-->
 			</div>
 			<div class="col-xl-8" style="background-color: #f2efe9;">
-				<!-- <div class="row text-center">
-					<h3><b>Simulation Map </b> </h3>
-				</div> -->
 				<div class="row">       
-					 <div id="map"> 
-						 
-					<!-- HANDLES SIMULATION MAP -->	
+					 <div id="map">
 						<?php include_once('new_MapDisplay_J.php');?>
-						 
 					</div>
 				</div>	
 			</div>

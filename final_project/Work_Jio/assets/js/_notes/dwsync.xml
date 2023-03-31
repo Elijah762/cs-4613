@@ -5,4 +5,9 @@
 <file name="leaflet.ajax.min.js" server="ec2-13-59-220-105.us-east-2.compute.amazonaws.com//var/www/html/" local="133146826180000000" remote="133146826180000000" Dst="1" />
 <file name="jquery-3.5.1.js" server="ec2-13-59-220-105.us-east-2.compute.amazonaws.com//var/www/html/" local="133146826180000000" remote="133146826180000000" Dst="1" />
 <file name="map_J.js" server="ec2-13-59-220-105.us-east-2.compute.amazonaws.com//var/www/html/" local="133146826180000000" remote="133146826180000000" Dst="1" />
+<file name="jquery-1.12.4.js" server="ec2-3-19-75-85.us-east-2.compute.amazonaws.com" local="133222795318837178" remote="133222894510000000" Dst="1" />
+<file name="jquery-3.5.1.js" server="ec2-3-19-75-85.us-east-2.compute.amazonaws.com" local="133222795318877190" remote="133222894510000000" Dst="1" />
+<file name="leaflet.ajax.min.js" server="ec2-3-19-75-85.us-east-2.compute.amazonaws.com" local="133222795318877190" remote="133222894510000000" Dst="1" />
+<file name="map.js" server="ec2-3-19-75-85.us-east-2.compute.amazonaws.com" local="133222795318887199" remote="133222894510000000" Dst="1" />
+<file name="map_J.js" server="ec2-3-19-75-85.us-east-2.compute.amazonaws.com" local="133222795318887199" remote="133222894510000000" Dst="1" />
 </dwsync>
