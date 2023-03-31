@@ -37,17 +37,9 @@
 	body {
 		margin: 0; width: 100%; background-color: #262626;
 	}
-	/* .leaflet-popup-content-wrapper,.leaflet-popup-tip {
+	.leaflet-popup-content-wrapper,.leaflet-popup-tip {
 		background: white;
 		color: black;
-		border: none;
-		box-shadow: none;
-		border-radius: 0px;
-	} */
-	.my-label {
-		background: white;
-		color: black;
-		background: transparent;
 		border: none;
 		box-shadow: none;
 		border-radius: 0px;
