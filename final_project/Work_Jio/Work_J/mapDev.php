@@ -51,9 +51,9 @@
 		<nav class="navbar navbar-expand-lg navbar-light py-2 fixed-top"
 			style="background-color: #333333;">
 			<div class="container-fluid">
-				<img class="img-fluid d-flex ps-4 justify-content-md-start"
-					src="../assets/img/nsa_img.PNG"
-					alt="" />
+<!--				<img class="img-fluid d-flex ps-4 justify-content-md-start"-->
+<!--					src="../assets/img/nsa_img.PNG"-->
+<!--					alt="" />-->
 				<a class="navbar-brand text-white"
 				href="mapDev.php">Project Nueron</a>
 				<ul class="navbar-nav">
@@ -158,8 +158,5 @@
 			</div>
 		</div>
 	</div>
-	<?php
-			$mysqli->close();
-	?>
 </body> 
 </html>

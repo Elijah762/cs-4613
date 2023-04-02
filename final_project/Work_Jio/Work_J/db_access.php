@@ -5,8 +5,8 @@
 function db_connect($db)
 {
     $hostname="localhost";
-    $username="DBuser";
-    $password="vqttDqsE*cBI_8(B";
+    $username="root";
+    $password="Medic203";
 	$db="senior_design_db";
 	$mysqli= new mysqli($hostname, $username, $password, $db);
 	if (mysqli_connect_errno())

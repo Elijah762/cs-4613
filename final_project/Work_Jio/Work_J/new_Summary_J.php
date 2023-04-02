@@ -6,11 +6,8 @@
 	*
 	*/
 	/******************************DB ACCESS*********************************************/
-	$hostname="localhost";
-	$username="DBuser";
-	$password="vqttDqsE*cBI_8(B";
-	$db="senior_design_db";
-	$mysqli= new mysqli($hostname, $username, $password, $db);
+	include_once("db_access.php");
+	$mysqli=db_connect("senior_design_db");
 	if (mysqli_connect_errno())
 	{
 		die("Error connecting to database: ".mysqli_connect_error());
