@@ -11,6 +11,7 @@
 */
 
 body {
+  font-family: monospace;
   margin: 25;
   padding: 25;
 }
@@ -50,6 +51,8 @@ body {
 }
 
 .nav-link {
+	font-family: 'Times New Roman', Times, serif;
+	font-size:x-large;
 	transition: all 0.2s;
 	padding: 0px;
 	margin-left: 0px;
@@ -59,9 +62,11 @@ body {
 }
 
 .nav-brand {
+	font-family: 'Teko-Bold';
 	transition: all 0.2s;
 	padding: 0px;
-	margin-left: -270px;
+	/**margin-left: -270px;**/
+	margin-left: 1rem;
 	margin-right: 1000px;
 	margin-top: 0px;
 	margin-bottom: 0px;
@@ -71,3 +76,10 @@ body {
 .navbar-brand:hover {
 	text-decoration: underline;
 }
+
+.navbar-title {
+	font-family: 'Times New Roman', Times, serif;
+	margin-right: auto;
+    margin-left: -1.5rem;
+}
+
