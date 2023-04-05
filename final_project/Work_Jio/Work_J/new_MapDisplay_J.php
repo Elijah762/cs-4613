@@ -101,23 +101,81 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 		}
 		return arrayColors;
 	}
-	//********************COLOR TEST*************************//
-	function colorTest() {
-		let arrNum = [];
-		let j = 110;
-		for (let i = 0; i < 7; i++){
-			if (i == 6) {
-				arrNum[i] = L.marker([15, -80], {icon: arrayColors[i]}).bindPopup("FOR ERROR CHECKING").addTo(map); 
+
+	function mapMarkers() {
+		var MapIcon = L.Icon.extend({
+			options: {
+				iconSize: [30, 30],
+				iconAnchor: [12, 41],
+				popupAnchor: [1, -30]
 			}
-			else if (i == 5) {
-				arrNum[i] = L.marker([15, -85], {icon: arrayColors[i]}).bindPopup("FOR MANUALLY AFFECTED MARKER").addTo(map);
-			}
-			else {
-					arrNum[i] = L.marker([15, -j], {icon: arrayColors[i]}).addTo(map);
-			}
-			j = j-5;
+		});
+
+		var power_plant_icon = new MapIcon({iconUrl: 'https://cdn-icons-png.flaticon.com/512/2511/2511648.png'}),
+			hurricane_icon = new MapIcon({iconUrl: 'https://cdn-icons-png.flaticon.com/512/6631/6631648.png'}),
+			wildfire_icon = new MapIcon({iconUrl: 'https://cdn-icons-png.flaticon.com/512/785/785116.png'}),
+			tornado_icon = new MapIcon({iconUrl: 'https://cdn-icons-png.flaticon.com/512/3032/3032739.png'}),
+			earthquake_icon = new MapIcon({iconUrl: 'https://cdn-icons-png.flaticon.com/512/6566/6566490.png'}),
+			cyberattack_icon = new MapIcon({iconUrl: 'https://cdn-icons-png.flaticon.com/512/3813/3813615.png'});
+
+
+		let map_markers = [];
+		let map_icons = [
+			power_plant_icon,
+			hurricane_icon,
+			wildfire_icon,
+			earthquake_icon,
+			cyberattack_icon
+		];
+
+		for (let i = 0; i < map_icons.length; i++) {
+			map_markers[i] = map_icons[i];
+			
 		}
+		return map_markers;
+
 	}
+
+	// function displayPowerConsumption() {
+	// 	let power_consumption = [
+	// 		{
+	// 			"red": Number(24),
+	// 			"orange": Number(49),
+	// 			"yellow": Number(74),
+	// 			"green": Number(99),
+	// 			"blue": Number(100)
+	// 		}
+	// 	];
+
+	// 	for (var key in data.power_constumption) {
+	// 		var obj = data.power_consumption[key];
+	// 	}
+
+	// 	var circle = L.circle([], {
+	// 		color: 'red',
+	// 		fillColor: '#f03',
+	// 		fillOpacity: 0.5,
+	// 		radius: 500
+	// 	}).addTo(map);
+
+	// }
+	//********************COLOR TEST*************************//
+	// function colorTest() {
+	// 	let arrNum = [];
+	// 	let j = 110;
+	// 	for (let i = 0; i < 7; i++){
+	// 		if (i == 6) {
+	// 			arrNum[i] = L.marker([15, -80], {icon: arrayColors[i]}).bindPopup("FOR ERROR CHECKING").addTo(map); 
+	// 		}
+	// 		else if (i == 5) {
+	// 			arrNum[i] = L.marker([15, -85], {icon: arrayColors[i]}).bindPopup("FOR MANUALLY AFFECTED MARKER").addTo(map);
+	// 		}
+	// 		else {
+	// 				arrNum[i] = L.marker([15, -j], {icon: arrayColors[i]}).addTo(map);
+	// 		}
+	// 		j = j-5;
+	// 	}
+	// }
 	/************************************************/
 	/****
 	* 	FROM: JDP
@@ -157,7 +215,7 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 				summary[i] = arraySum[i].node_name + '<br> Energy Produced: ' + arraySum[i].pow_produce + '<br> Energy Demand:  ' + arraySum[i].pow_demand + '<br> Outflow: ' + arraySum[i].node_totalOutflow  + '<br> Inflow: ' + arraySum[i].node_totalInflow +'<br> Energy Total: ' + energyTotalEquation + '<br> Population Served:  ' + arraySum[i].node_popServe;
 			/*************************************/
 			if (Math.sign(percentEquation) == 0 ) {		
-				markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: arrayColors[4]}).bindPopup( summary[i] ).addTo(map);
+				markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: map_markers[4]}).bindPopup( summary[i] ).addTo(map);
 				//markersTemp[i] = markers[i];
 				//console.log("ARRAYEP FOUR: " + Number(percentVal));
 				
@@ -165,7 +223,8 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 				//console.log("I: "+ i + " node_statusPerc: " + arraySum[i].node_statusPerc);	
 			}
 			if (Math.sign(percentEquation) == -1 ) {		
-				markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: arrayColors[4]}).bindPopup( summary[i] ).addTo(map);
+				markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: map_markers[0]}).bindPopup( summary[i] ).addTo(map);
+				//markers[i] = L.polyline([arraySum[i].node_lat, arraySum[i].node_lon], {color: 'red'}).addTo(map);
 				//markersTemp[i] = markers[i];
 				//console.log("ARRAYEP FOUR: " + Number(percentVal));
 				
@@ -174,7 +233,7 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 			}
 			else if (Math.sign(percentEquation) == 1 ) {
 				if (arraySum[i].node_active == 0){
-					markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: arrayColors[5]}).bindPopup( summary[i] ).addTo(map);
+					markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: map_markers[5]}).bindPopup( summary[i] ).addTo(map);
 					//markersTemp[i] = markers[i];
 
 					arraySum[i].node_statusPerc = percentEquation;
@@ -183,7 +242,7 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 				}
 				else if (Number(percentEquation) < Number(25)) {
 					
-					markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: arrayColors[4]}).bindPopup( summary[i] ).addTo(map);
+					markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: map_markers[4]}).bindPopup( summary[i] ).addTo(map);
 					//markersTemp[i] = markers[i];
 
 					arraySum[i].node_statusPerc = percentEquation;
@@ -192,14 +251,14 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 					
 				}
 				else if (Number(25) <= percentEquation && percentEquation <= Number(49)) {
-					markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: arrayColors[3]}).bindPopup( summary[i] ).addTo(map);
+					markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: map_markers[3]}).bindPopup( summary[i] ).addTo(map);
 					//markersTemp[i] = markers[i];
 					//console.log("ARRAYEP ELSE THREE: " + Number(percentVal));
 					arraySum[i].node_statusPerc = percentEquation;
 					//console.log("I: "+ i + " node_statusPerc: " + arraySum[i].node_statusPerc);	
 				}
 				else if (Number(50) <= percentEquation && percentEquation <= Number(74)) {
-					markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: arrayColors[2]}).bindPopup( summary[i] ).addTo(map);
+					markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: map_markers[2]}).bindPopup( summary[i] ).addTo(map);
 					//markersTemp[i] = markers[i];
 					//console.log("ARRAYEP ELSE TWO: " + Number(percentVal));
 					arraySum[i].node_statusPerc = percentEquation;
@@ -214,7 +273,7 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 				
 				}
 				else if (Number(100) <= percentEquation ) {
-					markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: arrayColors[0]}).bindPopup( summary[i] ).addTo(map);
+					//markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: map_markers[0]}).bindPopup( summary[i] ).addTo(map);
 					//markersTemp[i] = markers[i];
 					//console.log("ARRAYEP ELSE ZERO: " + Number(percentVal));
 					arraySum[i].node_statusPerc = percentEquation;
@@ -235,8 +294,9 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 	}
 	/**************************FUNCTION EXECUTION***************************************/
 	//getTotalData();
+	var map_markers = mapMarkers();
 	var arrayColors = getArrayColors();
-	colorTest();
+	//colorTest();
 	createMarkerDisplay();
 	/*************************************************************************************/
 	/***
@@ -311,7 +371,7 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 
 						}
 						else if (Number(100) <= arraySum[i].node_statusPerc ) {
-							markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: arrayColors[0]}).bindPopup( summary[i] ).addTo(map);
+							markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: map_markers[0]}).bindPopup( summary[i] ).addTo(map);
 							console.log("100+");
 							
 						}
