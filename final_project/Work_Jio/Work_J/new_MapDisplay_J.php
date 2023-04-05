@@ -56,12 +56,21 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 	***/
 	//------------------------------- CREATES AND CALLS MAP API --------------------------------------------//
 	const map = L.map('map', {
-			center: [41.1667, -100.1667],
+			center: [42.1867, -98.1667],
 			zoom: 3.5
   	});
 	var baseMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' });
 
 	baseMap.addTo(map);
+
+	const popup = L.popup({
+		closeButton: false,
+		autoClose: false
+	})
+	.setLatLng([55.1867, -98.1667])
+	.setContent('<p>Simulation Map</p>')
+	.openOn(map);
+
 	//console.log("HERE:"+ baseMap);
 	//*********************************ASSIGNS VALUES FROM PHP TO JAVASCRIPT**********************************************//
 	var arraySum = <?php echo json_encode($sum); ?>; //echos out 'Array's contents maybe for loop to get all of data? maybe?
@@ -585,8 +594,45 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
         };
     }
 }).addTo(map);
+console.log("INSIDE NODE LIST SCRIPT");
+	var nodeList = <?php echo json_encode($sum); ?>;
 	
+	function getNodeConnections(map, nodeList) {
+		if (!nodeList) {
+    		console.error("nodeList is undefined or null");
+    		return;
+  		}
+  		for (let i = 0; i < nodeList.length; i++) {
+    		let node = nodeList[i];
+    		let nodeLat = node.node_lat;
+    		let nodeLng = node.node_lon;
+    		let nodeConnect = nodeList[i].node_connect;
+			nodeConnect = JSON.parse(nodeConnect);
+			console.log("nodeConnect:", nodeConnect);
+			console.log("out of loop");
+    		for (let j = 0; j < nodeConnect.gridList.length; j++) {
+				console.log("in loop");
+				console.log("Connecting to node: " + nodeConnect.gridList[j].name);
+      			let connectedNode = nodeList.find((item) => item.node_acronym === nodeConnect.gridList[j].name);
+				console.log("found node");
+
+      			if (connectedNode) {
+        			let connectedNodeLat = connectedNode.node_lat;
+        			let connectedNodeLng = connectedNode.node_lon;
+					
+
+        			// add a polyline to map with the nodes longitude and latitude
+					let latlngs = [[nodeLat, nodeLng], [connectedNodeLat, connectedNodeLng]];
+      				let polyline = L.polyline(latlngs, { color: 'blue' }).addTo(map);
+					console.log(latlngs);
+
+      			}		
+    		}
+  		}
+	}
+	getNodeConnections(map, nodeList);
 </script>
+
 	
 	
 	

@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@600&display=swap');
 
 /**DO NOT REMOVE MAP ***/
-#map { height: 840px; }
+#map { height: 1150px; }
 /*
 *{
 	font-family: 'Source Sans Pro', sans-serif;
@@ -50,9 +50,13 @@ body {
 	margin-bottom: 0px;
 }
 
+
 .nav-link {
 	font-family: 'Times New Roman', Times, serif;
 	font-size:x-large;
+
+.nav-item {
+
 	transition: all 0.2s;
 	padding: 0px;
 	margin-left: 0px;
@@ -77,9 +81,11 @@ body {
 	text-decoration: underline;
 }
 
+
 .navbar-title {
 	font-family: 'Times New Roman', Times, serif;
 	margin-right: auto;
     margin-left: -1.5rem;
 }
+
 

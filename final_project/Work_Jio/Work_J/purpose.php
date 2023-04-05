@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html>
 <head>
@@ -82,3 +83,8 @@
     
 </body> 
 </html>
+
+<?php
+	echo "<h1>purpose.php</h1>";
+?>
+

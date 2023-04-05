@@ -37,5 +37,48 @@
             //search nodeList and get node with matching name
                 // access the node longitutde
                 //  access the node latitdue  
-                //add a polyline to map with the nodes longitude and latitude 
+                //add a polyline to map with the nodes longitude and latitude
+	$sum =  getNodeData($mysqli); 
+	
 ?>
+<script type="text/javascript">
+	console.log("INSIDE NODE LIST SCRIPT");
+	var nodeList = <?php echo json_encode($sum); ?>;
+	
+	function getNodeConnections(map, nodeList) {
+		if (!nodeList) {
+    		console.error("nodeList is undefined or null");
+    		return;
+  		}
+  		for (let i = 0; i < nodeList.length; i++) {
+    		let node = nodeList[i];
+    		let nodeLat = node.node_lat;
+    		let nodeLng = node.node_lon;
+    		let nodeConnect = nodeList[i].node_connect;
+			nodeConnect = JSON.parse(nodeConnect);
+			console.log("nodeConnect:", nodeConnect);
+			console.log("out of loop");
+    		for (let j = 0; j < nodeConnect.gridList.length; j++) {
+				console.log("in loop");
+				console.log("Connecting to node: " + nodeConnect.gridList[j].name);
+      			let connectedNode = nodeList.find((item) => item.node_acronym === nodeConnect.gridList[j].name);
+				console.log("found node");
+
+      			if (connectedNode) {
+        			let connectedNodeLat = connectedNode.node_lat;
+        			let connectedNodeLng = connectedNode.node_lon;
+					
+
+        			// add a polyline to map with the nodes longitude and latitude
+					let latlngs = [[nodeLat, nodeLng], [connectedNodeLat, connectedNodeLng]];
+      				let polyline = L.polyline(latlngs, { color: 'red' }).addTo(map);
+					console.log(latlngs);
+
+      			}		
+    		}
+  		}
+	}
+	getNodeConnections(map, nodeList);
+
+
+</script>
