@@ -61,11 +61,7 @@
 				<h3 class="navbar-title text-white">NATIONAL SECURITY AGENCY / PROJECT NUERON</h3>
 				
 
-				<img class="img-fluid d-flex ps-4 justify-content-md-start"
-					src="../assets/img/nsa_img.PNG"
-					alt="" />
-				<a class="navbar-brand text-white"
-				href="mapDev.php">Project Nueron</a>
+	
 
 				<ul class="navbar-nav">
 					<li class="nav-item">
