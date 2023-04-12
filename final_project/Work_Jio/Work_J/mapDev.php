@@ -33,6 +33,7 @@
 <!-------------------------------------->
 
 <style>
+	/* body {margin: 0; width: 100%; background-color: #384E77; } */
 	body {
 		margin: 0; width: 100%; background-color: #262626;
 	}
@@ -92,9 +93,15 @@
 				</div>-->
 			</div>
 			<div class="col-xl-8" style="background-color: #f2efe9;">
+				<!-- <div class="row text-center">
+					<h3><b>Simulation Map </b> </h3>
+				</div> -->
 				<div class="row">       
-					 <div id="map">
+					 <div id="map"> 
+						 
+					<!-- HANDLES SIMULATION MAP -->	
 						<?php include_once('new_MapDisplay_J.php');?>
+						 
 					</div>
 				</div>	
 			</div>
