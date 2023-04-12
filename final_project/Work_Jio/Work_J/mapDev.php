@@ -33,7 +33,6 @@
 <!-------------------------------------->
 
 <style>
-	/* body {margin: 0; width: 100%; background-color: #384E77; } */
 	body {
 		margin: 0; width: 100%; background-color: #262626;
 	}
