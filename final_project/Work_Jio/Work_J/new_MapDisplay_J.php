@@ -86,21 +86,21 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 	*	HANDLES COLOR OUTPUTS FOR ARRAYS, LATER USED IN MAP DISPLAY
 	* 	arrayColors[] , 0-6, BLUE -> GREEN -> YELLOW -> ORANGE -> RED ; SILVER, BLACK
 	***/
-	function getArrayColors () {
-		let arrayColorNames = ['blue','green','yellow','orange','red', 'grey', 'black']; // error checking can be with grey or black.
-		let arrayColors = [];
-		for (let i = 0; i < arrayColorNames.length; i++) {
-			arrayColors[i] = new L.Icon({
-				  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-'+ arrayColorNames[i] +'.png',
-				  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-				  iconSize: [25, 41],
-				  iconAnchor: [12, 41],
-				  popupAnchor: [1, -34],
-				  shadowSize: [41, 41]
-			});
-		}
-		return arrayColors;
-	}
+	// function getArrayColors () {
+	// 	let arrayColorNames = ['blue','green','yellow','orange','red', 'grey', 'black']; // error checking can be with grey or black.
+	// 	let arrayColors = [];
+	// 	for (let i = 0; i < arrayColorNames.length; i++) {
+	// 		arrayColors[i] = new L.Icon({
+	// 			  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-'+ arrayColorNames[i] +'.png',
+	// 			  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+	// 			  iconSize: [25, 41],
+	// 			  iconAnchor: [12, 41],
+	// 			  popupAnchor: [1, -34],
+	// 			  shadowSize: [41, 41]
+	// 		});
+	// 	}
+	// 	return arrayColors;
+	// }
 
 	function mapMarkers() {
 		var MapIcon = L.Icon.extend({
@@ -295,7 +295,7 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 	/**************************FUNCTION EXECUTION***************************************/
 	//getTotalData();
 	var map_markers = mapMarkers();
-	var arrayColors = getArrayColors();
+	// var arrayColors = getArrayColors();
 	//colorTest();
 	createMarkerDisplay();
 	/*************************************************************************************/
@@ -333,14 +333,14 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 						summary[i] = arraySum[i].node_name + '<br> Energy Produced: ' + arraySum[i].pow_produce + '<br> Energy Demand:  ' + arraySum[i].pow_demand + '<br> Outflow: ' + arraySum[i].node_totalOutflow  + '<br> Inflow: ' + arraySum[i].node_totalInflow +'<br> Energy Total: ' + energyTotalEquation + '<br> Population Served:  ' + arraySum[i].node_popServe;
 					/*************************************/
 					if (Math.sign(arraySum[i].node_statusPerc) == 0 ) {		
-						markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: arrayColors[4]}).bindPopup( summary[i] ).addTo(map);
+						markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: map_markers[4]}).bindPopup( summary[i] ).addTo(map);
 						console.log("SECOND IF UPDATEMARKERDISPLAY");
 						console.log("SECOND IF UPDATEMARKERDISPLAY");
 						
 					
 					}
 					if (Math.sign(arraySum[i].node_statusPerc) == -1 ) {		
-						markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: arrayColors[4]}).bindPopup( summary[i] ).addTo(map);
+						markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: map_markers[4]}).bindPopup( summary[i] ).addTo(map);
 						console.log("THIRD IF UPDATEMARKERDISPLAY");
 						console.log("THIRD IF UPDATEMARKERDISPLAY");
 					
@@ -352,21 +352,21 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 						
 						
 						if (Number(arraySum[i].node_statusPerc) < Number(25)) {
-							markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: arrayColors[4]}).bindPopup( summary[i] ).addTo(map);
+							markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: map_markers[4]}).bindPopup( summary[i] ).addTo(map);
 					console.log("FIRST: IF ELSE IF UPDATEMARKERDISPLAY");
 							
 						
 						}
 						else if (Number(25) <= arraySum[i].node_statusPerc && arraySum[i].node_statusPerc <= Number(49)) {
-							markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: arrayColors[3]}).bindPopup( summary[i] ).addTo(map);
+							markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: map_markers[3]}).bindPopup( summary[i] ).addTo(map);
 						console.log("SECOND: IF ELSE IF UPDATEMARKERDISPLAY");
 						}
 						else if (Number(50) <= arraySum[i].node_statusPerc && arraySum[i].node_statusPerc <= Number(74)) {
-							markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: arrayColors[2]}).bindPopup( summary[i] ).addTo(map);
+							markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: map_markers[2]}).bindPopup( summary[i] ).addTo(map);
 							console.log("50+");
 						}
 						else if (Number(75) <= arraySum[i].node_statusPerc && arraySum[i].node_statusPerc <= Number(99)) {
-							markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: arrayColors[1]}).bindPopup( summary[i] ).addTo(map);
+							markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: map_markers[1]}).bindPopup( summary[i] ).addTo(map);
 							console.log("75+");
 
 						}
@@ -383,7 +383,7 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 					}
 					else  {// || typeof percentVal === "undefined") { 
 						console.log("arraySum[i].node_acroynm: " + arraySum[i].node_acronym + " I: "+ i + " LAST percentEquation: " + arraySum[i].node_statusPerc);
-						markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: arrayColors[6]}).bindPopup( "FOR ERROR CHECKING <br>"+ summary[i] ).addTo(map);
+						markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: map_markers[6]}).bindPopup( "FOR ERROR CHECKING <br>"+ summary[i] ).addTo(map);
 					
 					} 
 				}
@@ -395,7 +395,7 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 						summary[i] = arraySum[i].node_name + '<br> Energy Produced: ' + arraySum[i].pow_produce + '<br> Energy Demand:  ' + arraySum[i].pow_demand + '<br> Received: ' + arraySum[i].node_totalOutflow  + '<br> Given: ' + arraySum[i].node_totalInflow +'<br> Energy Total: ' + energyTotalEquation + '<br> Population Served:  ' + arraySum[i].node_popServe;
 					/*************************************/
 				
-					markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: arrayColors[5]}).bindPopup( "FOR ERROR CHECKING <br>"+ summary[i] ).addTo(map);
+					markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: map_markers[5]}).bindPopup( "FOR ERROR CHECKING <br>"+ summary[i] ).addTo(map);
 					
 				}
 			}
