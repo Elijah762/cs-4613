@@ -277,7 +277,8 @@ function mapSimulation($value_acronym,$arrayQueue,$index, $mysqli) {
 	/****************************************************/
 }
 //CREATE ERROR CHECK LATER
-function greyMarkerStatus($value_acronym, $mysqli) {
+function greyMarkerStatus($value_acronym, $mysqli): void
+{
 	//SETS ACTIVE STATUS TO OFF '0'
 	$sql="UPDATE `node_info` SET `node_active`='0' WHERE `node_acronym` = '$value_acronym'";
 	$result = $mysqli->query($sql) or
