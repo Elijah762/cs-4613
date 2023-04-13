@@ -56,15 +56,15 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
     let baseMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' });
 
     baseMap.addTo(map);
-    //console.log("HERE:"+ baseMap);
-    //*********************************ASSIGNS VALUES FROM PHP TO JAVASCRIPT**********************************************//
     let arraySum = <?php echo json_encode($sum); ?>; //echos out 'Array's contents maybe for loop to get all of data? maybe?
-    //var arraySumStatic = </?php echo json_encode($sum); ?>; //echos out 'Array's contents maybe for loop to get all of data? maybe?
-    //***********************HANDLES MAP MARKER DATA DISPLAYED ON MAP **********************************//
     let summary = [];
-    var markers = [];
-    //var markersTemp = [];
-    //*********************************************************//
+    let markers = [];
+    let produce, totInflow, demand, outflow;
+
+    let mapPins = makeMapPinTemplate();
+    colorTest();
+    createMarkerDisplay();
+
     /****
      * 	FROM: JDP
      * 	FUNCTION: makeMapPinTemplate();
@@ -86,6 +86,7 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
         }
         return mapPinTypes;
     }
+
     //********************COLOR TEST*************************//
     function colorTest() {
         let arrNum = [];
@@ -110,14 +111,6 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
      *	HANDLES MATH EQUATION NEEDED TO SHOW DATA OUTPUT, WILL REFLECT MARKER COLOR DEPENDING ON ITS ENERGY STATUS
      *	**MATH ERROR FOUND HERE**
      ***/
-    //DEFAULT AND WILL CREATE NEW MAP WHEN MARKER IS CLICKED.
-    //NO NEED TO CHANGE (I THINK) OTHER THAN CREATING SIMULATION
-
-
-
-
-    //create if statement where if active_node is off 1, then color will be grey.
-
     function createMarkerDisplay() {
         for (let i = 0; i < arraySum.length; i++) {
             let percentEquation = getPercentTotal(i)
@@ -129,19 +122,19 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
         }
     }
     function getPercentTotal(i) {
-        let produce = parseInt(arraySum[i].pow_produce);
-        let totInflow = parseInt(arraySum[i].node_totalInflow);
-        let demand = parseInt(arraySum[i].pow_demand);
-        let outflow = parseInt(arraySum[i].node_totalOutflow);
+        setData(i);
         return (produce - totInflow) / (demand - outflow) * 100;
     }
 
+    function setData(i){
+        produce = parseInt(arraySum[i].pow_produce);
+        totInflow = parseInt(arraySum[i].node_totalInflow);
+        demand = parseInt(arraySum[i].pow_demand);
+        outflow = parseInt(arraySum[i].node_totalOutflow);
+    }
 
     function getEnergyTotal(i) {
-        let produce = parseInt(arraySum[i].pow_produce);
-        let totInflow = parseInt(arraySum[i].node_totalInflow);
-        let demand = parseInt(arraySum[i].pow_demand);
-        let outflow = parseInt(arraySum[i].node_totalOutflow);
+        setData(i);
         return produce  - totInflow  - demand +  outflow;
     }
 
@@ -158,20 +151,14 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
             /* Watch for undefined percentEquation = error */
         }
         markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: mapPins[pinNum]}).bindPopup( summary[i] ).addTo(map);
+        markers[i].on('click', onMarkerClick());
     }
 
     function setSummary(i, energyTotalEquation) {
-        let produce = parseInt(arraySum[i].pow_produce);
-        let totInflow = parseInt(arraySum[i].node_totalInflow);
-        let demand = parseInt(arraySum[i].pow_demand);
-        let outflow = parseInt(arraySum[i].node_totalOutflow);
-
+        setData(i);
         summary[i] = arraySum[i].node_name + '<br> Energy Produced: ' + produce + '<br> Energy Demand:  ' + demand + '<br> Outflow: ' + outflow  + '<br> Inflow: ' + totInflow +'<br> Energy Total: ' + energyTotalEquation + '<br> Population Served:  ' + arraySum[i].node_popServe;
     }
 
-    let mapPins = makeMapPinTemplate();
-    colorTest();
-    createMarkerDisplay();
     /***
      *	MADE BY: JOSE -JAYDEN HELPED IN EQUATION
      *	FUNC: updateMarkerDisplay()
@@ -180,53 +167,33 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
      ***/
     function updateMarkerDisplay(i, arraySum, markers, summary) {
         for (let i = 0; i < arraySum.length; i++) {
-            console.log("values percent: " + arraySum[i].node_statusPerc);
             if (arraySum[i].node_active != 0) {
-                //LOOK AT
-                console.log("FIRST IF UPDATEMARKERDISPLAY");
-                let energyTotalEquation = (parseInt(arraySum[i].pow_produce) + (parseInt(arraySum[i].node_totalInflow)* -1)) -(parseInt(arraySum[i].pow_demand)-(parseInt(arraySum[i].node_totalOutflow)));
-
-                if (isNaN(parseInt(arraySum[i].node_statusPerc)))
-                {
-                    console.log("I: "+ i + " percentEquation: " + (arraySum[i].node_statusPerc));
-                    //percentEquation = 1;
-                }
-                if (isNaN(parseInt(energyTotalEquation)))
-                {
-                    console.log("I: "+ i + " energyTotalEquation: " + (parseInt(energyTotalEquation)));
-                    //energyTotalEquation = 0;
-                }
-                /*************************************/
-                console.log("OUTSIDE IF UPDATEMARKERDISPLAY");
-                summary[i] = arraySum[i].node_name + '<br> Energy Produced: ' + arraySum[i].pow_produce + '<br> Energy Demand:  ' + arraySum[i].pow_demand + '<br> Outflow: ' + arraySum[i].node_totalOutflow  + '<br> Inflow: ' + arraySum[i].node_totalInflow +'<br> Energy Total: ' + energyTotalEquation + '<br> Population Served:  ' + arraySum[i].node_popServe;
-
-                setPinStatus(i);
-
+                let energyTotalEquation = getEnergyTotal(i);
+                setSummary(i, energyTotalEquation);
                 if (arraySum[i].node_statusPerc == null)  {
                     markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: mapPins[6]}).bindPopup( "FOR ERROR CHECKING <br>"+ summary[i] ).addTo(map);
                 }
+                else {setPinStatus(i);}
             }
-
             else {
-                let energyTotalEquation = (parseInt(arraySum[i].pow_produce) + (parseInt(arraySum[i].node_totalInflow)* -1)) -(parseInt(arraySum[i].pow_demand)-(parseInt(arraySum[i].node_totalOutflow)));
+                let energyTotalEquation = getEnergyTotal(i);
                 setSummary(i, energyTotalEquation);
                 markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: mapPins[5]}).bindPopup( "FOR ERROR CHECKING <br>"+ summary[i] ).addTo(map);
             }
         }
-        console.log("END OF UPDATEMARKERDISPLAY");
     }
 
-    /***********************************************************************************/
+    function onMarkerClick(e) {
+        console.log("hello")
+    }
+
     function markerOnClicked(i,markers, arraySum, summary, clicked) {
         console.log("CLICKED!!");
 
         if (arraySum[i].node_active == 1) {
             //******************JAVA TO PHP DATA FOR SIMULATION************************/
-            //console.log("ACRONYM INSIDE ARRAY: " +   arraySum[i].node_acronym );
             let value = arraySum[i].node_acronym;
             console.log(value);
-            //location.reload();
-            //myJavascriptFunction(value);
 
             <?php //MEANT TO PASS VARIABLE NAME FOR DB LATER ON
             if (!empty($_GET['name'] && $_GET['turnOff'] == "true")) {
@@ -241,9 +208,6 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
                 //CALLS AND ASSIGNS ARRAY WITH NEW DATA
                 $sum =  getNodeData($mysqli);
             }
-            //echo '<br>'; //DO NOT HAVE THESE OR IN SIMULATION
-            //echo '<br>';
-            //echo '<br>';
             ?>
 
             console.log("IF AFTER MARKERCLICKED");
@@ -331,7 +295,7 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
     function markersDisplayedClicked() {
         for (let i = 0; i < arraySum.length; i++) {
             console.log("FOR LOOP MARKERONCLICKED");
-            markers[i] = markers[i].on('click', function(){markerOnClicked(i,markers, arraySum, summary, arraySum[i].node_active);}).addTo(map);
+            markers[i] = markers[i].on('click', () => onMarkerClick()).addTo(map);
         }
     }
     /**************************FUNCTION EXECUTION***************************************/
