@@ -242,7 +242,7 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 				}
 				else if (Number(percentEquation) < Number(25)) {
 					
-					markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: map_markers[4]}).bindPopup( summary[i] ).addTo(map);
+					markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: map_markers[5]}).bindPopup( summary[i] ).addTo(map);
 					//markersTemp[i] = markers[i];
 
 					arraySum[i].node_statusPerc = percentEquation;
@@ -273,7 +273,7 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 				
 				}
 				else if (Number(100) <= percentEquation ) {
-					//markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: map_markers[0]}).bindPopup( summary[i] ).addTo(map);
+					markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: map_markers[0]}).bindPopup( summary[i] ).addTo(map);
 					//markersTemp[i] = markers[i];
 					//console.log("ARRAYEP ELSE ZERO: " + Number(percentVal));
 					arraySum[i].node_statusPerc = percentEquation;
