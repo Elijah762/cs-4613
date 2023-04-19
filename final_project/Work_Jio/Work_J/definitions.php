@@ -34,7 +34,7 @@
 <!-------------------------------------->
 
 <style>
-	body {margin: 0; width: 100%; background-color: #384E77; }
+	body {margin: 0; width: 100%; background-color: #262626; }
 </style>
 
 </head>
@@ -42,7 +42,7 @@
     <!-- Setting up the Navigation menu --->
 	<div>
 		<nav class="navbar navbar-expand-lg navbar-light py-2 fixed-top"
-			style="background-color: #18314F;">
+			style="background-color: #333333;">
 			<div class="container-fluid">
 		   
 			<!-- If we want the NSA logo to be a link to the sim --->

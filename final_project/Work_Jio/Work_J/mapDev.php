@@ -58,7 +58,7 @@
 					alt="" >
 				</a> 
 
-				<h3 class="navbar-title text-white">NATIONAL SECURITY AGENCY / PROJECT NUERON</h3>
+				<h4 class="navbar-title text-white">NATIONAL SECURITY AGENCY / PROJECT NUERON</h4>
 				
 
 	
@@ -80,10 +80,10 @@
 			</div>
 		</nav>
 	</div> 
-
 	<br>
-	<br>	
-    <div class="container pt-3 mt-5 align-content-center">
+	
+
+    <!--<div class="container pt-3 mt-5 align-content-center"> -->
 
 			
     <div class="container-fluid pt-4 mt-5" id="table">

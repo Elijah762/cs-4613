@@ -69,7 +69,7 @@ body {
 	font-family: 'Teko-Bold';
 	transition: all 0.2s;
 	padding: 0px;
-	/**margin-left: -270px;**/
+	margin-left: -270px;
 	margin-left: 1rem;
 	margin-right: 1000px;
 	margin-top: 0px;
@@ -84,8 +84,94 @@ body {
 
 .navbar-title {
 	font-family: 'Times New Roman', Times, serif;
+	font-size: large;
 	margin-right: auto;
     margin-left: -1.5rem;
 }
+
+.herotitle h1 {
+    color: white;
+    font-family: 'Teko-Semibold', sans-serif;
+    font-size: 3rem !important;
+    font-weight: bold;
+}
+
+
+.banner-section {
+	position: relative;
+	margin-bottom: 0px;
+  }
+  
+  .banner-section .banner-content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 100%;
+	text-align: center;
+	z-index: 1;
+  }
+  
+  .banner-section .banner-content h1 {
+	margin: 0;
+	padding: 10px;
+	color: white;
+	background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .banner-section .img-banner {
+	display: block;
+	width: 100%;
+	height: 300px; /* Default height for the banner */
+	object-fit: cover;
+  }
+  
+  @media screen and (max-width: 767px) {
+	/* Apply styles for screens with a maximum width of 767px */
+	.banner-section .img-banner {
+	  height: 200px; /* Adjust the height for smaller screens */
+	}
+  }
+  
+  @media screen and (max-width: 479px) {
+	/* Apply styles for screens with a maximum width of 479px */
+	.banner-section .img-banner {
+	  height: 150px; /* Adjust the height for even smaller screens */
+	}
+  }
+
+  .white-section {
+	position: relative;
+	background-color: #fff;
+	height: 900px; /* adjust the height as needed */
+	position: relative;
+	top: 0px; /* adjust the top value to position it below your navbar */
+  }
+
+  .white-section h2{
+	font-family: 'Teko-Semibold',sans-serif;
+    text-align: left;
+    color: #40469d;
+    font-weight: bold;
+	font-size: 2.5rem !important;
+  }
+  
+  .sections {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+}
+
+.inner-section {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 40px;
+    width: 35%;
+    position: relative;
+}
+
+
 
 

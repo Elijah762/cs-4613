@@ -34,7 +34,7 @@
 <!-------------------------------------->
 
 <style>
-	body {margin: 0; width: 100%; background-color: #384E77; }
+	body {margin: 0; width: 100%; background-color: #262626; }
 </style>
 
 </head>
@@ -42,7 +42,7 @@
     <!-- Setting up the Navigation menu --->
 	<div>
 		<nav class="navbar navbar-expand-lg navbar-light py-2 fixed-top"
-			style="background-color: #18314F;">
+			style="background-color: #333333;">
 			<div class="container-fluid">
 		   
 			<!-- If we want the NSA logo to be a link to the sim --->
@@ -57,7 +57,7 @@
 					src="../assets/img/nsa_img2.1.png"
 					alt="" />
 				--->
-				<h3 class="navbar-title text-white">PROJECT NUERON / PURPOSE</h3>
+				<h3 class="navbar-title text-white">PROJECT NUERON</h3>
 				<ul class="navbar-nav">
 					<li class="nav-item">
 						<a class="nav-link text-white"
@@ -74,10 +74,37 @@
 				</ul>
 			</div>
 		</nav>
-	</div> 
+	</div>
+	<br>
+	<br>
 
-	<div class="container pt-3 mt-5 align-content-center">
-    	
+	<div class="banner-section">
+  		<div class="banner-content">
+			<div class="herotitle">
+    			<h1>Purpose</h1>
+			</div>
+		</div>
+  		<img class="img-banner" src="../assets/img/nsa_img2.4.png" alt="" />
+	</div>
+
+	<div class="white-section">
+		<div class="sections">
+			<div class="leftbox inner-section">
+				<div class="section-text">
+				<h2>NSA Mission</h2>
+				" NSA Cybersecurity prevents and eradicates threats to U.S. national security systems with a focus on the Defense Industrial Base and the improvement of U.S. weapons’ security. It also strives to promote cybersecurity education, research, and career-building. "
+				</div>
+			</div>
+			<div class="rightbox inner-section">
+				<div class="section-text">
+				<h2>Our Mission</h2>
+				This project will come in the form of a website. It will contain a map which will map the regions and core nodes of the United States power grid. It will also show power generation, flow and consumption across electrical infrastructure using graphical notations and further detail upon interaction with the map. This site will additionally allow for the simulation of power outages and display the subsequent effects of said simulated outages on the United States and its population.
+
+				</div>
+			</div>
+		</div>
+		
+		
 	</div>
 			
     
