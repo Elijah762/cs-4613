@@ -1,21 +1,8 @@
-
-
 <?php
-	/***
-	* 	FROM: JDP
-	***/
-    /******************************DB ACCESS*********************************************/
 	include_once("db_access.php");
 	include_once("inflowOutflowCalculation.php");
 	$mysqli=db_connect("senior_design_db");
-	//db_connect("senior_design_db");
-	/***********************************************************************************/
-?>
 
-<?php
-	/***
-	* 	FROM: JDP
-	***/
 	function getNodeData($mysqli) {
 		$arrayMarker = array();
 		$sql="SELECT `node_id`, `node_acronym`, `node_name`, `node_region`, `pow_produce`, `pow_demand`, `node_popServe`, `node_lat`, `node_lon`, `node_connect`, `node_active`, `node_totalInflow`, `node_totalOutflow`, `node_statusPerc`  from `node_info` order by `node_region`;";
@@ -36,20 +23,32 @@
 		return "N/A";	
 	}
 
+function getNodeConnectorsData($mysqli, $node_acronym) {
+	  $arrayConnectors = array();
+	  $sql = "SELECT `node_connect` FROM `node_info` WHERE `node_acronym` = $node_acronym";
+	  $result = $mysqli->query($sql) or die("Something went wrong with $sql".$mysqli->error);
+	  $result_Check = mysqli_num_rows($result);
+
+	  if ($result_Check > 0) {
+		$row = mysqli_fetch_assoc($result);
+		$json_data = json_encode($row['node_connect']);
+		$grid_list = json_decode($json_data, true);
+
+		// extract the names from the gridList array
+		$NodeConnectNames = array();
+		foreach ($grid_list as $grid) {
+		  $NodeConnectNames[] = $grid['name'];
+		}
+
+		return $NodeConnectNames;
+	  }
+
+	  return "N/A";
+}
+
 $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 ?>
-
-<?php
-//RESETS MAP TO DEFAULT; MAY OR  MAY NOT WORK DEPENDING ON PERMISSION STATUS, MAY NEED TO UPDATE INSTEAD
-	/*function getResetNodeData($mysqli) {
-		$sql="TRUNCATE `senior_design_db.node_info` INSERT INTO `senior_design_db.node_info` SELECT * FROM senior_design_db.node_simulation_static;";
-		$result = $mysqli->query($sql) or
-			die("Something went wrong with $sql".$mysqli->error);
-		$result_Check = mysqli_num_rows($result);
-	}
-	*/	
-?>	
-
+	
 <script type="text/javascript">
 	/***
 	* 	FROM: JDP
@@ -62,18 +61,14 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 	var baseMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' });
 
 	baseMap.addTo(map);
-	//console.log("HERE:"+ baseMap);
-	//*********************************ASSIGNS VALUES FROM PHP TO JAVASCRIPT**********************************************//
-	var arraySum = <?php echo json_encode($sum); ?>; //echos out 'Array's contents maybe for loop to get all of data? maybe?
-	//var arraySumStatic = </?php echo json_encode($sum); ?>; //echos out 'Array's contents maybe for loop to get all of data? maybe?
+	
+	//*********ASSIGNS VALUES FROM PHP TO JAVASCRIPT****************//
+	var arraySum = <?php echo json_encode($sum); ?>; 
 	//***********************HANDLES MAP MARKER DATA DISPLAYED ON MAP **********************************//
 	var summary = []; 
     var markers = [];
-	//var markersTemp = [];
-	//*********************************************************//
-	/****
-	* 	FROM: JDP
-	* 	FUNCTION: getArrayColors(); 
+
+	/***
 	*	HANDLES COLOR OUTPUTS FOR ARRAYS, LATER USED IN MAP DISPLAY
 	* 	arrayColors[] , 0-6, BLUE -> GREEN -> YELLOW -> ORANGE -> RED ; SILVER, BLACK
 	***/
@@ -109,22 +104,15 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 			j = j-5;
 		}
 	}
-	/************************************************/
+	
 	/****
-	* 	FROM: JDP
-	*   FUNCTION: createMarkerDisplay();
 	*	HANDLES MATH EQUATION NEEDED TO SHOW DATA OUTPUT, WILL REFLECT MARKER COLOR DEPENDING ON ITS ENERGY STATUS
 	*	**MATH ERROR FOUND HERE** 
 	***/
 	//DEFAULT AND WILL CREATE NEW MAP WHEN MARKER IS CLICKED.
 	//NO NEED TO CHANGE (I THINK) OTHER THAN CREATING SIMULATION
 	
-	
-	
-	
 	//create if statement where if active_node is off 1, then color will be grey.
-	
-	
 	
 	function createMarkerDisplay() {
 		for (let i = 0; i < arraySum.length; i++) {//arraySum.length; i++ ) {
@@ -223,17 +211,15 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 				//markersTemp[i] = markers[i];
 			} 
 		}
+		
 	}
 	/**************************FUNCTION EXECUTION***************************************/
 	//getTotalData();
 	var arrayColors = getArrayColors();
 	colorTest();
 	createMarkerDisplay();
-	/*************************************************************************************/
+	
 	/***
-	*	MADE BY: JOSE -JAYDEN HELPED IN EQUATION
-	*	FUNC: updateMarkerDisplay()
-	*	PARAMETERS: i, arraySum, markers, summary
 	*	HANDLES INITIAL MARKER COLORS DEPENDING ON DATA RETRIEVED FROM DB
 	***/
 		function updateMarkerDisplay(i, arraySum, markers, summary) {
@@ -358,42 +344,49 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 		//window.location.reload(true);
 		//createMarkerDisplay();
 	}
-	/***********************************************************************************/
+	
 	function markerOnClicked(i,markers, arraySum, summary, clicked) { 
-		//markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: arrayColors[4]}).bindPopup( "Manually Affected Node <br>" + summary[i] ).addTo(map); //= markersTemp[i];
+		markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: arrayColors[4]}).bindPopup( "Manually Affected Node <br>" + summary[i] ).addTo(map); //= markersTemp[i];
 		console.log("BEFORE IF MARKERONCLICKED");
-		//markers[i].on('mouseover', function (e) {this.openPopup();}); //this.openPopup();  ?
-		//markers[i].on('mouseout', function (e) {this.closePopup();});
+		markers[i].on('mouseover', function (e) {this.openPopup();}); //this.openPopup();  ?
+		markers[i].on('mouseout', function (e) {this.closePopup();});
 		if (arraySum[i].node_active == 1) {
 		//******************JAVA TO PHP DATA FOR SIMULATION************************/
-			//console.log("ACRONYM INSIDE ARRAY: " +   arraySum[i].node_acronym );
+			console.log("ACRONYM INSIDE ARRAY: " +   arraySum[i].node_acronym );
 			let value = arraySum[i].node_acronym;
 			myJavascriptFunction(value);
+			
 
 			<?php //MEANT TO PASS VARIABLE NAME FOR DB LATER ON
 			if (!empty($_GET['name'] && $_GET['turnOff'] == "true")) {
 				
 				$value_acronym = $_GET['name'];
+				
 				$arrayQueue = [];
 				$index = 0;
 				$arrayQueue[$index] = $value_acronym;
+				
+				//$nodeConnectors = [];
+				//Retrieve node connectors
+				//$nodeConnectors = getNodeConnectorsData($mysqli, $value_acronym);
+				//console.log("connectors: " + $nodeConnectors);
+				
 				greyMarkerStatus($value_acronym, $mysqli);
+				
 				//HANDLES SIMULATION
 				mapSimulation($value_acronym,$arrayQueue,$index, $mysqli);
 				//CALLS AND ASSIGNS ARRAY WITH NEW DATA
 				$sum =  getNodeData($mysqli); 
+				
 			}
-			//echo '<br>'; //DO NOT HAVE THESE OR IN SIMULATION
-			//echo '<br>';
-			//echo '<br>';
 			?>
 			
 			console.log("IF AFTER MARKERCLICKED");
 			/***********************SIMULATION*********************************/	
 			//HANDLES SIMULATION
-			//< ?php echo json_encode(mapSimulation($value_acronym,$arrayQueue,$index, $mysqli)); ?>; 
+			<?php echo json_encode(mapSimulation($value_acronym,$arrayQueue,$index, $mysqli)); ?>; 
 			//CALLS AND ASSIGNS ARRAY WITH NEW DATA
-			//< ?php $sum =  getNodeData($mysqli); ?>
+			<?php $sum =  getNodeData($mysqli); ?>
 			
 			
 			//THIS PREVENTS GOING INTO SECOND ELSE IF 
@@ -423,7 +416,7 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 		//******************DATA FROM JAVASCRIPT TO PHP SIMULATION************************/
 			console.log("ELSE IF");
 			let value = arraySum[i].node_acronym;
-			//myJavascriptFunction(value);
+			myJavascriptFunction(value);
 
 			
 			
@@ -434,21 +427,27 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 				$index = 0;
 				$arrayQueue[$index] = $value_acronym;
 				revertMarkerStatus($value_acronym, $mysqli);
+				
+				$nodeConnectors = [];
+				//Retrieve node connectors
+				$nodeConnectors = getNodeConnectorsData($mysqli, $value_acronym);
+				console.log("connectors: " + $nodeConnectors);
+				//echo $nodeConnectors;
 				//HANDLES SIMULATION
-				//mapSimulation($value_acronym,$arrayQueue,$index, $mysqli);
+				mapSimulation($value_acronym,$arrayQueue,$index, $mysqli);
 				//CALLS AND ASSIGNS ARRAY WITH NEW DATA
 				$sum =  getNodeData($mysqli); 
 			}	
 			?>
 			console.log("ELSE IF AFTER MARKERCLICKED");
 			//HANDLES SIMULATION
-			//< ?php echo json_encode(mapSimulation($value_acronym,$arrayQueue,$index, $mysqli)); ?>; 
+			<?php echo json_encode(mapSimulation($value_acronym,$arrayQueue,$index, $mysqli)); ?>; 
 			//CALLS AND ASSIGNS ARRAY WITH NEW DATA
 			<?php $sum =  getNodeData($mysqli); ?>
 			//THIS PREVENTS GOING INTO IF 
-			//myJavascriptFunction('');
+			myJavascriptFunction('');
 			
-			//var arraySum = <?php //echo json_encode($sum); ?>;
+			//var arraySum = < ?php //echo json_encode($sum); ?>;
 			
 			const queryString = window.location.search;
 			// splits the parameters up
@@ -466,6 +465,10 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 			updateMarkerDisplay(i, arraySum, markers, summary);
 			//HANDLES MOUSE HOVERING
 			MarkerMouseHover(markers, arraySum);
+			
+			var newUrl = "mapDev.php"
+			window.location.replace(newUrl);
+			
 			return;
 		}
 	} //END OF FUNCTION: markerOnClicked();
@@ -474,6 +477,7 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 		for (let i = 0; i < arraySum.length; i++) { 
 			console.log("FOR LOOP MARKERONCLICKED");
 			markers[i] = markers[i].on('click', function(){markerOnClicked(i,markers, arraySum, summary, arraySum[i].node_active);}).addTo(map);
+		
 		}	
 	}
 	/**************************FUNCTION EXECUTION***************************************/
@@ -491,25 +495,10 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 		const name = urlParams.get('name');
 		console.log("This is the name: " + name);
 	}
-	// //else {
-	// console.log("markersDisplayedClicked is ran");
-	// markersDisplayedClicked();
-	// //}
-	
-	//updateMarkerDisplay(i, arraySum, markers, summary);
-	/***********************************************************************************/
-	//< ?php
-	//$sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
-	//? >
-	//var arraySum = < ?php echo json_encode($sum); ?>;
-	//updateMarkerDisplay(i, arraySum, markers, summary);
-	/***********************************************************************************/
-	/**********
-	*	LOGIC/SYNTAX ERROR HERE; 
-	*	MEANT TO CLICK ON MARKER THEN SIMULATE SELECTED AND SURROUNDING MARKER WITH UPDATED DATA 
-	*************/
-	//maybe make if statement here to call it as many times if clicked.
-	
+	else {
+	   console.log("markersDisplayedClicked is ran");
+	   markersDisplayedClicked();
+	}
 	
 	/********************************
 	* HANDLES DEFAULT MOUSE HOVER OVER FUNCTIONALITY
@@ -524,60 +513,7 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 	console.log("MarkerMouseHover is ran");
 	MarkerMouseHover(markers, arraySum);
 	
-	/*
-	for (let i = 0; i < arraySum.length; i++) {
-		markers[i].on('mouseover', function (e) {this.openPopup();}); //this.openPopup();  ?
-  		markers[i].on('mouseout', function (e) {this.closePopup();}); // this.closePopup(); ?
-	}
-	*/
-	/************************************************************************************/
-	
-	/**************************FUNCTION EXECUTION***************************************/
-	//getTotalData();
-	//var arrayColors = getArrayColors();
-	//colorTest();
-	//createMarkerDisplay();
-	//markersDisplayedClicked(); 
-	//updateMarkerDisplay(i, arraySum, markers, summary);
-	/***********************************************************************************/
-	//*********************************************************//
-		/****
-	* 	FROM: JDP
-	*   FUNCTION: getTotalData();
-	*	SUMS POSITIVE,NEGATIVE, ZERO VALUES INTO ITS OWN UNIQUE ARRAYS FOR MAP DATA DISPLAY
-	***/
-	//will use later for simulation connection
-	/*
-    function getTotalData() {
-		for (let j = 0; j < arraySum.length; j++) {
-			let row = JSON.parse(arraySum[j].node_connect); //updates row
-			let totalP = 0; //resets it
-			let totalN = 0;
-			let totalZ = 0;
-			for (var k = 0; k < row.gridList.length;k++) { //second gets node_connect's array elements
-				if (Math.sign(parseInt(row.gridList[k].value)) == 1) { //checks if its a positive, neg, or 0 also adds to 'total' for receive, given
-					totalP = parseInt(totalP) + parseInt(row.gridList[k].value);
-				}
-				else if (Math.sign(parseInt(row.gridList[k].value)) == -1) {
-					totalN = parseInt(totalN) + parseInt(row.gridList[k].value);
-				}
-				else if (Math.sign(parseInt(row.gridList[k].value)) == 0) {
-					totalZ = parseInt(totalZ) + parseInt(row.gridList[k].value);
-				}  
-				else {      
-					console.log("ERROR: "+ row.gridList[k].value + " Line J: " + j);
-					console.log("");
-				}
-				arrayP[j] = parseInt(totalP);
-				arrayN[j] = parseInt(totalN);
-				arrayZ[j] = parseInt(totalZ);
-			}
-		}
-	}
-	*/
-	
-	//*********************************************************//
-	L.shapefile('/cs-4613/final_project/Work_Jio/assets/shapefiles/NERC_Regions_EIA.zip', {
+	L.shapefile('../assets/shapefiles/NERC_Regions_EIA/NercRegions_201907', {
     style: function(feature) {
         return {
             color: 'red',
@@ -587,6 +523,3 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 }).addTo(map);
 	
 </script>
-	
-	
-	
