@@ -34,7 +34,8 @@ $sum =  getNodeData($mysqli);
 			center: [42.1867, -98.1667],
 			zoom: 3.5
   	});
-	baseMap.addTo(map);
+    let baseMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' });
+    baseMap.addTo(map);
 
 	const popup = L.popup({
 		closeButton: false,
@@ -50,7 +51,6 @@ $sum =  getNodeData($mysqli);
     let summary = [];
     let mapPins = mapMarkers();
     let markers = [];
-    let baseMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' });
     let produce, totInflow, demand, outflow;//globals
 
 
