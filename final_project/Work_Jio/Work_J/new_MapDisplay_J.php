@@ -113,10 +113,11 @@ $sum =  getNodeData($mysqli);
         marker.on('click', function(e) {
             if(arraySum[i].node_active !== 1) {
                 console.log("Turn off");
-                console.log(arraySum[i].node_acronym);
+                arraySum[i].node_active = 0
             }
             else {
                 console.log("Turn on");
+                arraySum[i].node_active = 1
             }
         });
         marker.on('mouseover', function(e) {this.openPopup();});
@@ -164,7 +165,6 @@ $sum =  getNodeData($mysqli);
 	
 	if (urlParams.has('name')) {
 		const name = urlParams.get('name');
-		console.log("This is the name: " + name);
 	}
 
 	L.shapefile('/cs-4613/final_project/Work_Jio/assets/shapefiles/NERC_Regions_EIA.zip', {
@@ -189,13 +189,13 @@ $sum =  getNodeData($mysqli);
     		let nodeLng = node.node_lon;
     		let nodeConnect = nodeList[i].node_connect;
 			nodeConnect = JSON.parse(nodeConnect);
-			console.log("nodeConnect:", nodeConnect);
-			console.log("out of loop");
+			//console.log("nodeConnect:", nodeConnect);
+			//console.log("out of loop");
     		for (let j = 0; j < nodeConnect.gridList.length; j++) {
-				console.log("in loop");
-				console.log("Connecting to node: " + nodeConnect.gridList[j].name);
+				// console.log("in loop");
+				// console.log("Connecting to node: " + nodeConnect.gridList[j].name);
       			let connectedNode = nodeList.find((item) => item.node_acronym === nodeConnect.gridList[j].name);
-				console.log("found node");
+				//console.log("found node");
 
       			if (connectedNode) {
         			let connectedNodeLat = connectedNode.node_lat;
@@ -205,7 +205,7 @@ $sum =  getNodeData($mysqli);
         			// add a polyline to map with the nodes longitude and latitude
 					let latlngs = [[nodeLat, nodeLng], [connectedNodeLat, connectedNodeLng]];
       				let polyline = L.polyline(latlngs, { color: 'blue' }).addTo(map);
-					console.log(latlngs);
+					//console.log(latlngs);
 
       			}		
     		}
