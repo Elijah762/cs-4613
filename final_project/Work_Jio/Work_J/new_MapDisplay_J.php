@@ -26,7 +26,7 @@
 		return "N/A";	
 	}
 
-$sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
+$sum =  getNodeData($mysqli);
 ?>
 
 <script type="text/javascript">
@@ -59,27 +59,16 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 				popupAnchor: [1, -30]
 			}
 		});
+        let map_icons = [
+            new MapIcon({iconUrl: 'https://cdn-icons-png.flaticon.com/512/2511/2511648.png'}),//power plant icon
+            new MapIcon({iconUrl: 'https://cdn-icons-png.flaticon.com/512/6631/6631648.png'}),//hurricane icon
+            new MapIcon({iconUrl: 'https://cdn-icons-png.flaticon.com/512/785/785116.png'}),//wildfire icon
+            new MapIcon({iconUrl: 'https://cdn-icons-png.flaticon.com/512/3032/3032739.png'}),//tornado icon
+            new MapIcon({iconUrl: 'https://cdn-icons-png.flaticon.com/512/6566/6566490.png'}),//earthquake icon
+            new MapIcon({iconUrl: 'https://cdn-icons-png.flaticon.com/512/3813/3813615.png'});//cyberattack icon
+        ]
 
-		var power_plant_icon = new MapIcon({iconUrl: 'https://cdn-icons-png.flaticon.com/512/2511/2511648.png'}),
-			hurricane_icon = new MapIcon({iconUrl: 'https://cdn-icons-png.flaticon.com/512/6631/6631648.png'}),
-			wildfire_icon = new MapIcon({iconUrl: 'https://cdn-icons-png.flaticon.com/512/785/785116.png'}),
-			tornado_icon = new MapIcon({iconUrl: 'https://cdn-icons-png.flaticon.com/512/3032/3032739.png'}),
-			earthquake_icon = new MapIcon({iconUrl: 'https://cdn-icons-png.flaticon.com/512/6566/6566490.png'}),
-			cyberattack_icon = new MapIcon({iconUrl: 'https://cdn-icons-png.flaticon.com/512/3813/3813615.png'});
-
-
-		let map_markers = [];
-		let map_icons = [
-			power_plant_icon,
-			hurricane_icon,
-			wildfire_icon,
-			earthquake_icon,
-			cyberattack_icon
-		];
-
-		for (let i = 0; i < map_icons.length; i++) {map_markers[i] = map_icons[i];}
-		return map_markers;
-
+		return map_icons;
 	}
 
 
