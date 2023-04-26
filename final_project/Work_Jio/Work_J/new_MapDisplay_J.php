@@ -34,8 +34,6 @@ $sum =  getNodeData($mysqli);
 			center: [42.1867, -98.1667],
 			zoom: 3.5
   	});
-	let baseMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' });
-    let produce, totInflow, demand, outflow;//globals
 	baseMap.addTo(map);
 
 	const popup = L.popup({
@@ -46,10 +44,16 @@ $sum =  getNodeData($mysqli);
 	.setContent('<p>Simulation Map</p>')
 	.openOn(map);
 
+    //Define Globals
 	let arraySum = <?php echo json_encode($sum); ?>; //echos out 'Array's contents maybe for loop to get all of data? maybe?
-	let summary = [];
-    let markers = L.markerClusterGroup();
+    let nodeList = <?php echo json_encode($sum); ?>;
+    let summary = [];
     let mapPins = mapMarkers();
+    let markers = [];
+    let baseMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' });
+    let produce, totInflow, demand, outflow;//globals
+
+
 	function mapMarkers() {
 		let MapIcon = L.Icon.extend({
 			options: {
@@ -65,6 +69,7 @@ $sum =  getNodeData($mysqli);
             new MapIcon({iconUrl: 'https://cdn-icons-png.flaticon.com/512/3032/3032739.png'}),//tornado icon
             new MapIcon({iconUrl: 'https://cdn-icons-png.flaticon.com/512/6566/6566490.png'}),//earthquake icon
             new MapIcon({iconUrl: 'https://cdn-icons-png.flaticon.com/512/3813/3813615.png'}),//cyberattack icon
+            //NEED OFFLINE PIN
         ]
 		return map_icons;
 	}
@@ -81,10 +86,12 @@ $sum =  getNodeData($mysqli);
         }
 	}
 
+
     function getPercentTotal(i) {
         setData(i)
         return (produce - totInflow) / (demand - outflow) * 100;
     }
+
 
     function setData(i){
         produce = parseInt(arraySum[i].pow_produce);
@@ -93,52 +100,56 @@ $sum =  getNodeData($mysqli);
         outflow = parseInt(arraySum[i].node_totalOutflow);
     }
 
+
     function getEnergyTotal(i) {
         setData(i)
         return produce  - totInflow  - demand +  outflow;
     }
 
+
     function setPinStatus(i) {
         let pinNum;
-        if (Math.sign(arraySum[i].node_statusPerc) == 0 || Math.sign(arraySum[i].node_statusPerc) == -1 )       {pinNum = 4;}
+        let percent = arraySum[i].node_statusPerc;
+        if (Math.sign(percent) == 0 || Math.sign(percent) == -1 )       {pinNum = 4;}
         else {
-            if (arraySum[i].node_active == 0)                                                                   {pinNum = 5;}
-            else if (Number(arraySum[i].node_statusPerc) < Number(25))                                          {pinNum = 4;}
-            else if (Number(25) <= arraySum[i].node_statusPerc && arraySum[i].node_statusPerc <= Number(49))    {pinNum = 3;}
-            else if (Number(50) <= arraySum[i].node_statusPerc && arraySum[i].node_statusPerc <= Number(74))    {pinNum = 2;}
-            else if (Number(75) <= arraySum[i].node_statusPerc && arraySum[i].node_statusPerc <= Number(99))    {pinNum = 1;}
-            else if (Number(100) <= arraySum[i].node_statusPerc )                                               {pinNum = 0;}
+            if (arraySum[i].node_active == 0)                           {pinNum = 5;}//deactivate
+            else if (Number(percent) < Number(25))                      {pinNum = 4;}
+            else if (Number(25) <= percent && percent <= Number(49))    {pinNum = 3;}
+            else if (Number(50) <= percent && percent <= Number(74))    {pinNum = 2;}
+            else if (Number(75) <= percent && percent <= Number(99))    {pinNum = 1;}
+            else if (Number(100) <= percent)                            {pinNum = 0;}
         }
-        let marker = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: mapPins[pinNum]}).bindPopup( summary[i] ).addTo(map);
+        let marker = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: mapPins[pinNum]}).bindPopup(summary[i]);
         marker.on('click', function(e) {
+            console.log('Curr = ' + arraySum[i].node_active)
             if(arraySum[i].node_active !== 1) {
                 console.log("Turn off");
-                arraySum[i].node_active = 0
+                arraySum[i].node_active = 0;
+                console.log(arraySum[i].node_active);
+
             }
             else {
                 console.log("Turn on");
-                arraySum[i].node_active = 1
+                arraySum[i].node_active = 1;
             }
         });
         marker.on('mouseover', function(e) {this.openPopup();});
         marker.on('mouseout', function(e) {this.closePopup();});
-        markers.addLayer(marker);
+
+        let clusterMarker = L.markerClusterGroup();
+        clusterMarker.addLayer(marker);
+
+        markers[i] = marker;
+        map.addLayer(clusterMarker);
     }
+
 
     function setSummary(i, energyTotalEquation) {
         setData(i);
         summary[i] = arraySum[i].node_name + '<br> Energy Produced: ' + produce + '<br> Energy Demand:  ' + demand + '<br> Outflow: ' + outflow  + '<br> Inflow: ' + totInflow +'<br> Energy Total: ' + energyTotalEquation + '<br> Population Served:  ' + arraySum[i].node_popServe;
     }
 
-	/**************************FUNCTION EXECUTION***************************************/
-	createMarkerDisplay();
-	/*************************************************************************************/
-	/***
-	*	MADE BY: JOSE -JAYDEN HELPED IN EQUATION
-	*	FUNC: updateMarkerDisplay()
-	*	PARAMETERS: i, arraySum, markers, summary
-	*	HANDLES INITIAL MARKER COLORS DEPENDING ON DATA RETRIEVED FROM DB
-	***/
+
     function updateMarkerDisplay() {
         for (let i = 0; i < arraySum.length; i++) {
             if (arraySum[i].node_active != 1) {
@@ -158,14 +169,45 @@ $sum =  getNodeData($mysqli);
             }
         }
     }
+
+
+    function getNodeConnections(map, nodeList) {
+        if (!nodeList) {
+            console.error("nodeList is undefined or null");
+            return;
+        }
+        for (let i = 0; i < nodeList.length; i++) {
+            let node = nodeList[i];
+            let nodeLat = node.node_lat;
+            let nodeLng = node.node_lon;
+            let nodeConnect = nodeList[i].node_connect;
+            nodeConnect = JSON.parse(nodeConnect);
+            //console.log("nodeConnect:", nodeConnect);
+            //console.log("out of loop");
+            for (let j = 0; j < nodeConnect.gridList.length; j++) {
+                // console.log("in loop");
+                // console.log("Connecting to node: " + nodeConnect.gridList[j].name);
+                let connectedNode = nodeList.find((item) => item.node_acronym === nodeConnect.gridList[j].name);
+                //console.log("found node");
+
+                if (connectedNode) {
+                    let connectedNodeLat = connectedNode.node_lat;
+                    let connectedNodeLng = connectedNode.node_lon;
+
+
+                    // add a polyline to map with the nodes longitude and latitude
+                    let latlngs = [[nodeLat, nodeLng], [connectedNodeLat, connectedNodeLng]];
+                    let polyline = L.polyline(latlngs, { color: 'blue' }).addTo(map);
+                    //console.log(latlngs);
+
+                }
+            }
+        }
+    }
+
+
 	/**************************FUNCTION EXECUTION***************************************/
-	const queryString = window.location.search;
-	// splits the parameters up
-	const urlParams = new URLSearchParams(queryString);
-	
-	if (urlParams.has('name')) {
-		const name = urlParams.get('name');
-	}
+    createMarkerDisplay();
 
 	L.shapefile('/cs-4613/final_project/Work_Jio/assets/shapefiles/NERC_Regions_EIA.zip', {
         style: function(feature) {
@@ -176,41 +218,6 @@ $sum =  getNodeData($mysqli);
         }
     }).addTo(map);
 
-	let nodeList = <?php echo json_encode($sum); ?>;
-	
-	function getNodeConnections(map, nodeList) {
-		if (!nodeList) {
-    		console.error("nodeList is undefined or null");
-    		return;
-  		}
-  		for (let i = 0; i < nodeList.length; i++) {
-    		let node = nodeList[i];
-    		let nodeLat = node.node_lat;
-    		let nodeLng = node.node_lon;
-    		let nodeConnect = nodeList[i].node_connect;
-			nodeConnect = JSON.parse(nodeConnect);
-			//console.log("nodeConnect:", nodeConnect);
-			//console.log("out of loop");
-    		for (let j = 0; j < nodeConnect.gridList.length; j++) {
-				// console.log("in loop");
-				// console.log("Connecting to node: " + nodeConnect.gridList[j].name);
-      			let connectedNode = nodeList.find((item) => item.node_acronym === nodeConnect.gridList[j].name);
-				//console.log("found node");
-
-      			if (connectedNode) {
-        			let connectedNodeLat = connectedNode.node_lat;
-        			let connectedNodeLng = connectedNode.node_lon;
-					
-
-        			// add a polyline to map with the nodes longitude and latitude
-					let latlngs = [[nodeLat, nodeLng], [connectedNodeLat, connectedNodeLng]];
-      				let polyline = L.polyline(latlngs, { color: 'blue' }).addTo(map);
-					//console.log(latlngs);
-
-      			}		
-    		}
-  		}
-	}
 	getNodeConnections(map, nodeList);
 </script>
 
