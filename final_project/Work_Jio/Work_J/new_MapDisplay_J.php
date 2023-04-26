@@ -126,12 +126,12 @@ $sum =  getNodeData($mysqli);
                 console.log("Turn off");
                 arraySum[i].node_active = 0;
                 setPinStatus(i);
-                console.log(arraySum[i].node_active);
 
             }
             else {
                 console.log("Turn on");
                 arraySum[i].node_active = 1;
+                setPinStatus(i);
             }
         });
         marker.on('mouseover', function(e) {this.openPopup();});
