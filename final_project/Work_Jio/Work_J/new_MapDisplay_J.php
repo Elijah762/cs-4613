@@ -125,6 +125,7 @@ $sum =  getNodeData($mysqli);
             if(arraySum[i].node_active !== 1) {
                 console.log("Turn off");
                 arraySum[i].node_active = 0;
+                setPinStatus(i);
                 console.log(arraySum[i].node_active);
 
             }
