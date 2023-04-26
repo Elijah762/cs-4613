@@ -140,7 +140,7 @@ $sum =  getNodeData($mysqli);
         clusterMarker.addLayer(marker);
 
         markers[i] = marker;
-        map.addLayer(clusterMarker);
+        marker.addTo(map);
     }
 
 
