@@ -110,6 +110,17 @@ $sum =  getNodeData($mysqli);
             else if (Number(100) <= arraySum[i].node_statusPerc )                                               {pinNum = 0;}
         }
         let marker = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: mapPins[pinNum]}).bindPopup( summary[i] ).addTo(map);
+        marker.on('click', function(e) {
+            //remove map pin layer
+            if(arraySum[i].node_active !== 1) {
+                console.log("Turn off")
+            }
+            else {
+                console.log("Turn on")
+            }
+            //create new map pin layer
+            updateMarkerDisplay();
+        });
         marker.on('mouseover', function(e) {this.openPopup();});
         marker.on('mouseout', function(e) {this.closePopup();});
         markers.addLayer(marker);
@@ -148,115 +159,6 @@ $sum =  getNodeData($mysqli);
             }
         }
     }
-			
-		
-	//function myJavascriptFunction(value) {
-  	//	let javascriptVariable = value;
-    //
-	//	let newUrl = "mapDev.php?name=" + javascriptVariable + "&turnOff=true";
-	//	console.log("myJavaScriptFunction Called");
-	//	window.location.replace(newUrl);
-	//}
-	//
-	//function revertJavascriptFunction(value) {
-  	//	let javascriptVariable = value;
-	//	let newUrl = "mapDev.php?name=" + javascriptVariable + "&turnOff=false";
-	//	console.log("myJavaScriptFunction Called");
-	//	window.location.replace(newUrl);
-	//}
-    //
-	//function markerOnClicked(i,markers, arraySum, summary, clicked) {
-	//	console.log("BEFORE IF MARKERONCLICKED");
-	//	if (arraySum[i].node_active == 1) {
-	//		let value = arraySum[i].node_acronym;
-	//		myJavascriptFunction(value);
-    //
-	//		<?php ////MEANT TO PASS VARIABLE NAME FOR DB LATER ON
-	//		if (!empty($_GET['name'] && $_GET['turnOff'] == "true")) {
-	//
-	//			$value_acronym = $_GET['name'];
-	//			$arrayQueue = [];
-	//			$index = 0;
-	//			$arrayQueue[$index] = $value_acronym;
-	//			greyMarkerStatus($value_acronym, $mysqli);
-	//			//HANDLES SIMULATION
-	//			mapSimulation($value_acronym,$arrayQueue,$index, $mysqli);
-	//			//CALLS AND ASSIGNS ARRAY WITH NEW DATA
-	//			$sum =  getNodeData($mysqli);
-	//		}
-	//		?>
-	//
-	//		console.log("IF AFTER MARKERCLICKED");
-	//		/***********************SIMULATION*********************************/
-	//		const queryString = window.location.search;
-	//		// splits the parameters up
-	//		const urlParams = new URLSearchParams(queryString);
-	//
-	//		let arraySum2 = <?php //echo json_encode($sum); ?>//;
-	//
-	//		if (urlParams.has('name')) {
-	//			arraySum = arraySum2;
-	//		}
-	//
-	//		console.log("BEFORE UPDATE MARKER IN == 1");
-	//		updateMarkerDisplay(i, arraySum, markers, summary);
-	//		/****************************/
-	//		return;
-	//	}
-	//	else if (arraySum[i].node_active == 0) {
-	//	//******************DATA FROM JAVASCRIPT TO PHP SIMULATION************************/
-	//		console.log("ELSE IF");
-	//		let value = arraySum[i].node_acronym;
-	//		//myJavascriptFunction(value);
-    //
-	//		<?php ////MEANT TO PASS VARIABLE NAME FOR DB LATER ON
-	//		if (!empty($_GET['name'] && $_GET['turnOff'] == "false")) {
-	//			$value_acronym = $_GET['name'];
-	//			$arrayQueue = [];
-	//			$index = 0;
-	//			$arrayQueue[$index] = $value_acronym;
-	//			revertMarkerStatus($value_acronym, $mysqli);
-	//			//HANDLES SIMULATION
-	//			//mapSimulation($value_acronym,$arrayQueue,$index, $mysqli);
-	//			//CALLS AND ASSIGNS ARRAY WITH NEW DATA
-	//			$sum =  getNodeData($mysqli);
-	//		}
-	//		?>
-	//		console.log("ELSE IF AFTER MARKERCLICKED");
-	//		//HANDLES SIMULATION
-	//		//< ?php echo json_encode(mapSimulation($value_acronym,$arrayQueue,$index, $mysqli)); ?>;
-	//		//CALLS AND ASSIGNS ARRAY WITH NEW DATA
-	//		<?php //$sum =  getNodeData($mysqli); ?>
-	//		//THIS PREVENTS GOING INTO IF
-	//		//myJavascriptFunction('');
-	//
-	//		//var arraySum = <?php ////echo json_encode($sum); ?>//;
-	//
-	//		const queryString = window.location.search;
-	//		// splits the parameters up
-	//		const urlParams = new URLSearchParams(queryString);
-	//
-	//		let arraySum2 = <?php //echo json_encode($sum); ?>//;
-	//
-	//		if (urlParams.has('name')) {
-	//			arraySum = arraySum2;
-	//		}
-	//
-	//		revertJavascriptFunction(value);
-	//		//UPDATES MARKERS
-	//		console.log("BEFORE UPDATE MARKER IN == 0");
-	//		updateMarkerDisplay(i, arraySum, markers, summary);
-	//		//HANDLES MOUSE HOVERING
-	//		return;
-	//	}
-	//} //END OF FUNCTION: markerOnClicked();
-	//
-	//function markersDisplayedClicked() {
-	//	for (let i = 0; i < arraySum.length; i++) {
-	//		console.log("FOR LOOP MARKERONCLICKED");
-	//		markers[i] = markers[i].on('click', function(){markerOnClicked(i,markers, arraySum, summary, arraySum[i].node_active);}).addTo(map);
-	//	}
-	//}
 	/**************************FUNCTION EXECUTION***************************************/
 	const queryString = window.location.search;
 	// splits the parameters up
