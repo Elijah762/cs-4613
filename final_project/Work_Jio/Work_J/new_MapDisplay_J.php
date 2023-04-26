@@ -276,8 +276,6 @@ $sum =  getNodeData($mysqli);
 			
 			console.log("BEFORE UPDATE MARKER IN == 1");
 			updateMarkerDisplay(i, arraySum, markers, summary);
-			//HANDLES MOUSE HOVERING
-			MarkerMouseHover(markers, arraySum);
 			/****************************/
 			return;
 		}
@@ -325,7 +323,6 @@ $sum =  getNodeData($mysqli);
 			console.log("BEFORE UPDATE MARKER IN == 0");
 			updateMarkerDisplay(i, arraySum, markers, summary);
 			//HANDLES MOUSE HOVERING
-			MarkerMouseHover(markers, arraySum);
 			return;
 		}
 	} //END OF FUNCTION: markerOnClicked();
@@ -345,20 +342,6 @@ $sum =  getNodeData($mysqli);
 		const name = urlParams.get('name');
 		console.log("This is the name: " + name);
 	}
-
-	
-	/********************************
-	* HANDLES DEFAULT MOUSE HOVER OVER FUNCTIONALITY
-	**********************************/
-	function MarkerMouseHover(markers, arraySum) {
-		for (let i = 0; i < arraySum.length; i++) {
-			markers[i].on('mouseover', function (e) {this.openPopup();}); //this.openPopup();  ?
-			markers[i].on('mouseout', function (e) {this.closePopup();}); // this.closePopup(); ?
-		}
-	}
-	
-	console.log("MarkerMouseHover is ran");
-	MarkerMouseHover(markers, arraySum);
 
 	L.shapefile('/cs-4613/final_project/Work_Jio/assets/shapefiles/NERC_Regions_EIA.zip', {
         style: function(feature) {
