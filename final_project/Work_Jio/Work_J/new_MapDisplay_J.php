@@ -15,7 +15,6 @@
 			die("Something went wrong with $sql".$mysqli->error);
 		$result_Check = mysqli_num_rows($result);
 		if ($result_Check > 0) {
-            echo "HFEORG";
 			$i = 0;
 		   	while($rowData = mysqli_fetch_assoc($result)) {			
 				$arrayMarker[$i] = $rowData;
@@ -35,7 +34,7 @@ $sum =  getNodeData($mysqli);
 			center: [42.1867, -98.1667],
 			zoom: 3.5
   	});
-	var baseMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' });
+	let baseMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' });
 
 	baseMap.addTo(map);
 
@@ -47,12 +46,12 @@ $sum =  getNodeData($mysqli);
 	.setContent('<p>Simulation Map</p>')
 	.openOn(map);
 
-	var arraySum = <?php echo json_encode($sum); ?>; //echos out 'Array's contents maybe for loop to get all of data? maybe?
-	var summary = [];
-    var markers = [];
+	let arraySum = <?php echo json_encode($sum); ?>; //echos out 'Array's contents maybe for loop to get all of data? maybe?
+	let summary = [];
+    let markers = [];
 
 	function mapMarkers() {
-		var MapIcon = L.Icon.extend({
+		let MapIcon = L.Icon.extend({
 			options: {
 				iconSize: [30, 30],
 				iconAnchor: [12, 41],
@@ -65,15 +64,14 @@ $sum =  getNodeData($mysqli);
             new MapIcon({iconUrl: 'https://cdn-icons-png.flaticon.com/512/785/785116.png'}),//wildfire icon
             new MapIcon({iconUrl: 'https://cdn-icons-png.flaticon.com/512/3032/3032739.png'}),//tornado icon
             new MapIcon({iconUrl: 'https://cdn-icons-png.flaticon.com/512/6566/6566490.png'}),//earthquake icon
-            new MapIcon({iconUrl: 'https://cdn-icons-png.flaticon.com/512/3813/3813615.png'});//cyberattack icon
+            new MapIcon({iconUrl: 'https://cdn-icons-png.flaticon.com/512/3813/3813615.png'}),//cyberattack icon
         ]
-
 		return map_icons;
 	}
 
 
 	function createMarkerDisplay() {
-		for (let i = 0; i < arraySum.length; i++) {//arraySum.length; i++ ) {
+		for (let i = 0; i < arraySum.length; i++) {
 			
 			let percentEquation = (parseInt(arraySum[i].pow_produce) + (parseInt(arraySum[i].node_totalInflow)* -1));
 			percentEquation = (percentEquation/(parseInt(arraySum[i].pow_demand)-(parseInt(arraySum[i].node_totalOutflow)))) * 100; 
@@ -141,7 +139,7 @@ $sum =  getNodeData($mysqli);
 		}
 	}
 	/**************************FUNCTION EXECUTION***************************************/
-	var map_markers = mapMarkers();
+	let map_markers = mapMarkers();
 	createMarkerDisplay();
 	/*************************************************************************************/
 	/***
@@ -249,14 +247,14 @@ $sum =  getNodeData($mysqli);
 	function myJavascriptFunction(value) { 
   		let javascriptVariable = value;
 
-		var newUrl = "mapDev.php?name=" + javascriptVariable + "&turnOff=true";
+		let newUrl = "mapDev.php?name=" + javascriptVariable + "&turnOff=true";
 		console.log("myJavaScriptFunction Called");
 		window.location.replace(newUrl);
 	}
 	
 	function revertJavascriptFunction(value) { 
   		let javascriptVariable = value;
-		var newUrl = "mapDev.php?name=" + javascriptVariable + "&turnOff=false";
+		let newUrl = "mapDev.php?name=" + javascriptVariable + "&turnOff=false";
 		console.log("myJavaScriptFunction Called");
 		window.location.replace(newUrl);
 	}
@@ -288,7 +286,7 @@ $sum =  getNodeData($mysqli);
 			// splits the parameters up
 			const urlParams = new URLSearchParams(queryString);
 			
-			var arraySum2 = <?php echo json_encode($sum); ?>;
+			let arraySum2 = <?php echo json_encode($sum); ?>;
 			
 			if (urlParams.has('name')) {
 				arraySum = arraySum2;
@@ -334,7 +332,7 @@ $sum =  getNodeData($mysqli);
 			// splits the parameters up
 			const urlParams = new URLSearchParams(queryString);
 			
-			var arraySum2 = <?php echo json_encode($sum); ?>;
+			let arraySum2 = <?php echo json_encode($sum); ?>;
 			
 			if (urlParams.has('name')) {
 				arraySum = arraySum2;
@@ -389,7 +387,7 @@ $sum =  getNodeData($mysqli);
         }
     }).addTo(map);
 
-	var nodeList = <?php echo json_encode($sum); ?>;
+	let nodeList = <?php echo json_encode($sum); ?>;
 	
 	function getNodeConnections(map, nodeList) {
 		if (!nodeList) {
