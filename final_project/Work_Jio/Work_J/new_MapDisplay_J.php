@@ -212,7 +212,3 @@ $sum =  getNodeData($mysqli);
 
 	getNodeConnections(map, nodeList);
 </script>
-
-	
-	
-	

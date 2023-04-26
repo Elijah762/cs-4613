@@ -23,31 +23,18 @@ function InOutFlowCal($mysqli) { //gets acronym name, and mysqli data.
 		die("Something went wrong with $sql".$mysqli2->error);
 	//$data the sql result ($data will be each node) iterates through each node
 	while ($data=$result->fetch_array(MYSQLI_NUM))
-	{	
-		//data[0]= node_acronym data[1]= "json info"
-		//echo "<p>\nEntry $data[0] + $data[1] </p>";
-
+	{
 		$jsonInfo = $data[1];
 		$jsonDecoded = json_decode($jsonInfo, true);
-		//jsonDecoded -> [0] gets you {"name"=SISO, "value"=9999 }
-		// ["name"] gets you SISO
 		$nameFirstConnection = $jsonDecoded["gridList"][0]["name"];
 		$lengthOfJson = count($jsonDecoded["gridList"]);
-		//echo "<p>HELLO: $nameFirstConnection $lengthOfJson</p>";
-		// $jsonDecoded makes  {{"name": "SPA", "value": "-6331"}, {"name": "TVA", "value": "5117"}}
-		// into an array stored in $jsonInfo
 		$jsonInfo = $jsonDecoded["gridList"];
-		//used to keep track of total outflow and inflow
 		$outflowCount = 0;
 		$inflowCount = 0;
-		// iterate throught the jsonInformation
 		foreach($jsonInfo as $value){
-			// $value = {"name"= CISO, "value"=9999}
 			$number = $value["value"];
-			// removing comas and converting to integer
 			$number= str_replace(',', '', $number);
 			$number = intval($number);
-			//echo "<p> $number </p>";
 			if($number > 0) {
 				$outflowCount = $outflowCount + $number;
 			}
@@ -56,8 +43,6 @@ function InOutFlowCal($mysqli) { //gets acronym name, and mysqli data.
 			}
 		}
 		
-		// "UPDATE MyGuests SET lastname='Doe' WHERE id=2";
-		//echo "<p> Inflow: ".$inflowCount." Outflow: ".$outflowCount." </p>";
 		$sql2="UPDATE `node_info` SET `node_totalInflow`='$inflowCount' , 
 		`node_totalOutflow`='$outflowCount' WHERE `node_acronym`='$data[0]'";
 			$result2 = $mysqli2->query($sql2) or
@@ -68,8 +53,7 @@ function InOutFlowCal($mysqli) { //gets acronym name, and mysqli data.
 //RECURSION HAPPENS HERE
 //THIS GOES THROUGH THE DB AND CHECKS THE NODE CONNECTIONS AND HOW THEY ARE AFFECTED
 function mapSimulation($value_acronym,$arrayQueue,$index, $mysqli) {
-	// sql to get the json info for node connections
-	if ($index == count($arrayQueue)) //checks if arraylength is we reached end of array 
+	if ($index == count($arrayQueue)) //checks if arraylength is we reached end of array
 	{	
 		return;
 	}
@@ -78,7 +62,6 @@ function mapSimulation($value_acronym,$arrayQueue,$index, $mysqli) {
 	{	
 		return;
 	}
-	/****************************************************/
 
 	$sql="SELECT `node_acronym`, `node_connect`,`pow_produce`,`pow_demand`,`node_totalInflow`,`node_totalOutflow`,`node_statusPerc`, `node_active` from `node_info` WHERE `node_acronym` = '$arrayQueue[$index]'";
 	$resultTmp = $mysqli->query($sql) or
@@ -95,14 +78,6 @@ function mapSimulation($value_acronym,$arrayQueue,$index, $mysqli) {
 	$nodePercentage = intval($result['node_statusPerc']);
 	$nodeActive = $result['node_active'];
 /*	
-	var_dump($nodeDemand);
-	echo "<br>";
-	var_dump($nodeTotalInflow);
-	echo "<br>";
-	var_dump($nodeTotalOutflow);
-	echo "<br>";
-	var_dump($nodePercentage);
-	echo "<br>";
 	*/
 	
 	//END SIMILATION IF PERCENTAGE DOES NOT CHANGE

@@ -153,29 +153,10 @@
                   <!--<h2>Let AJAX change this text</h2> -->
                  <!-- <button type="button" onclick="loadDoc()" class="btn-1">RESET SIMULATION</button> -->
                     </div>
-					<input type="submit" class="btn-1" name="Button" value="RESET SIM." /> 
+					<input type="submit" class="btn-1" onClick="window.location.reload()" name="Button" value="RESET SIM." />
 					<!---<button class="btn-2"> RESET2 </button> --->
 					<!--<button type="button" id="resetMap" class="btn btn-danger relative; left:80px; top:2px;" onclick="func(event)">RESET</button> -->
 				</div>
-				<script type="text/javascript">
-
-                 $(document).ready(function(){
-				    $('.btn-1').click(function() {
-					$.ajax({
-						type: "POST",
-						url: "displayFunctions.php",
-						data: {'input': "Success" }
-						}).done(function() {
-							alert('Reset Successful');
-							window.location.reload();
-						});
-					});
-                 });
-                    
-               <?php include_once('displayFunctions.php');?>
-             
-                   
-				</script>
      
 			</div>
 		</div>
