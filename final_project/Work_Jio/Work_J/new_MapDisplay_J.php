@@ -48,7 +48,7 @@ $sum =  getNodeData($mysqli);
 
 	let arraySum = <?php echo json_encode($sum); ?>; //echos out 'Array's contents maybe for loop to get all of data? maybe?
 	let summary = [];
-    let markers = [];
+    let markers = L.markerClusterGroup();
     let mapPins = mapMarkers();
 	function mapMarkers() {
 		let MapIcon = L.Icon.extend({
