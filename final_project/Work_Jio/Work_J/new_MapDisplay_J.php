@@ -111,15 +111,13 @@ $sum =  getNodeData($mysqli);
         }
         let marker = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: mapPins[pinNum]}).bindPopup( summary[i] ).addTo(map);
         marker.on('click', function(e) {
-            //remove map pin layer
             if(arraySum[i].node_active !== 1) {
-                console.log("Turn off")
+                console.log("Turn off");
+                console.log(arraySum[i].node_acronym);
             }
             else {
-                console.log("Turn on")
+                console.log("Turn on");
             }
-            //create new map pin layer
-            updateMarkerDisplay();
         });
         marker.on('mouseover', function(e) {this.openPopup();});
         marker.on('mouseout', function(e) {this.closePopup();});
