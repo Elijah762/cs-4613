@@ -131,7 +131,7 @@ $sum =  getNodeData($mysqli);
 	***/
     function updateMarkerDisplay() {
         for (let i = 0; i < arraySum.length; i++) {
-            if (arraySum[i].node_active != 0) {
+            if (arraySum[i].node_active != 1) {
                 let energyTotalEquation = getEnergyTotal(i);
                 setSummary(i, energyTotalEquation);
                 if (arraySum[i].node_statusPerc == null)  {
