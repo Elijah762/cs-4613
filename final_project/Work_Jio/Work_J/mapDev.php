@@ -18,6 +18,7 @@
  <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
      integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
      crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js"></script>
 	
 	
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
@@ -157,8 +158,8 @@
 					<!--<button type="button" id="resetMap" class="btn btn-danger relative; left:80px; top:2px;" onclick="func(event)">RESET</button> -->
 				</div>
 				<script type="text/javascript">
-                    
-                 $(document).ready(function(){  
+
+                 $(document).ready(function(){
 				    $('.btn-1').click(function() {
 					$.ajax({
 						type: "POST",
