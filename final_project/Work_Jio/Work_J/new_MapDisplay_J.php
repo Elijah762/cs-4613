@@ -35,7 +35,7 @@ $sum =  getNodeData($mysqli);
 			zoom: 3.5
   	});
 	let baseMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' });
-
+    let produce, totInflow, demand, outflow;//globals
 	baseMap.addTo(map);
 
 	const popup = L.popup({
@@ -71,73 +71,55 @@ $sum =  getNodeData($mysqli);
 
 
 	function createMarkerDisplay() {
-		for (let i = 0; i < arraySum.length; i++) {
-			
-			let percentEquation = (parseInt(arraySum[i].pow_produce) + (parseInt(arraySum[i].node_totalInflow)* -1));
-			percentEquation = (percentEquation/(parseInt(arraySum[i].pow_demand)-(parseInt(arraySum[i].node_totalOutflow)))) * 100; 
-	
-			let energyTotalEquation = (parseInt(arraySum[i].pow_produce) + (parseInt(arraySum[i].node_totalInflow)* -1)) -(parseInt(arraySum[i].pow_demand)+  (parseInt(arraySum[i].node_totalOutflow))); // pow_demand)+ was pow_demand)-
-			if (isNaN(parseInt(percentEquation)))
-			{
-				console.log("I: "+ i + " percentEquation: " + (parseInt(percentEquation)));
-			}
-			if (isNaN(parseInt(energyTotalEquation)))
-			{
-				console.log("I: "+ i + " energyTotalEquation: " + (parseInt(energyTotalEquation)));
-			}
-				summary[i] = arraySum[i].node_name + '<br> Energy Produced: ' + arraySum[i].pow_produce + '<br> Energy Demand:  ' + arraySum[i].pow_demand + '<br> Outflow: ' + arraySum[i].node_totalOutflow  + '<br> Inflow: ' + arraySum[i].node_totalInflow +'<br> Energy Total: ' + energyTotalEquation + '<br> Population Served:  ' + arraySum[i].node_popServe;
-			/*************************************/
-			if (Math.sign(percentEquation) == 0 ) {		
-				markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: map_markers[4]}).bindPopup( summary[i] ).addTo(map);
-				arraySum[i].node_statusPerc = percentEquation;
-			}
-			if (Math.sign(percentEquation) == -1 ) {		
-				markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: map_markers[0]}).bindPopup( summary[i] ).addTo(map);
-				arraySum[i].node_statusPerc = percentEquation;
-			}
-			else if (Math.sign(percentEquation) == 1 ) {
-				if (arraySum[i].node_active == 0){
-					markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: map_markers[5]}).bindPopup( summary[i] ).addTo(map);
+        for (let i = 0; i < arraySum.length; i++) {
+            let percentEquation = getPercentTotal(i)
+            let energyTotalEquation = getEnergyTotal(i);
 
-					arraySum[i].node_statusPerc = percentEquation;
-					console.log("I: "+ i + " node_statusPerc: " + arraySum[i].node_statusPerc);	
-				}
-				else if (Number(percentEquation) < Number(25)) {
-					
-					markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: map_markers[5]}).bindPopup( summary[i] ).addTo(map);
-
-					arraySum[i].node_statusPerc = percentEquation;
-					console.log("I: "+ i + " node_statusPerc: " + arraySum[i].node_statusPerc);	
-
-				}
-				else if (Number(25) <= percentEquation && percentEquation <= Number(49)) {
-					markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: map_markers[3]}).bindPopup( summary[i] ).addTo(map);
-					arraySum[i].node_statusPerc = percentEquation;
-				}
-				else if (Number(50) <= percentEquation && percentEquation <= Number(74)) {
-					markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: map_markers[2]}).bindPopup( summary[i] ).addTo(map);
-					arraySum[i].node_statusPerc = percentEquation;
-				}
-				else if (Number(75) <= percentEquation && percentEquation <= Number(99)) {
-					markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: arrayColors[1]}).bindPopup( summary[i] ).addTo(map);
-					arraySum[i].node_statusPerc = percentEquation;
-
-				}
-				else if (Number(100) <= percentEquation ) {
-					markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: map_markers[0]}).bindPopup( summary[i] ).addTo(map);
-					arraySum[i].node_statusPerc = percentEquation;
-				}
-				else  {// || typeof percentVal === "undefined") { 
-					console.log("arraySum[i].node_acroynm: " + arraySum[i].node_acronym + " I: "+ i + " SECOND percentEquation: " + (parseInt(percentEquation)));
-					markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: arrayColors[6]}).bindPopup( "FOR ERROR CHECKING <br>"+ summary[i] ).addTo(map);
-				}
-			}
-			else  {// || typeof percentVal === "undefined") { 
-				console.log("arraySum[i].node_acroynm: " + arraySum[i].node_acronym + " I: "+ i + " LAST percentEquation: " + (parseInt(percentEquation)));
-				markers[i] = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: arrayColors[6]}).bindPopup( "FOR ERROR CHECKING <br>"+ summary[i] ).addTo(map);
-			}
-		}
+            setSummary(i, energyTotalEquation);
+            arraySum[i].node_statusPerc = percentEquation;
+            setPinStatus(i);
+        }
 	}
+
+    function getPercentTotal(i) {
+        setData(i)
+        return (produce - totInflow) / (demand - outflow) * 100;
+    }
+
+    function setData(i){
+        produce = parseInt(arraySum[i].pow_produce);
+        totInflow = parseInt(arraySum[i].node_totalInflow);
+        demand = parseInt(arraySum[i].pow_demand);
+        outflow = parseInt(arraySum[i].node_totalOutflow);
+    }
+
+    function getEnergyTotal(i) {
+        setData(i)
+        return produce  - totInflow  - demand +  outflow;
+    }
+
+    function setPinStatus(i) {
+        let pinNum;
+        if (Math.sign(arraySum[i].node_statusPerc) == 0 || Math.sign(arraySum[i].node_statusPerc) == -1 )       {pinNum = 4;}
+        else {
+            if (arraySum[i].node_active == 0)                                                                   {pinNum = 5;}
+            else if (Number(arraySum[i].node_statusPerc) < Number(25))                                          {pinNum = 4;}
+            else if (Number(25) <= arraySum[i].node_statusPerc && arraySum[i].node_statusPerc <= Number(49))    {pinNum = 3;}
+            else if (Number(50) <= arraySum[i].node_statusPerc && arraySum[i].node_statusPerc <= Number(74))    {pinNum = 2;}
+            else if (Number(75) <= arraySum[i].node_statusPerc && arraySum[i].node_statusPerc <= Number(99))    {pinNum = 1;}
+            else if (Number(100) <= arraySum[i].node_statusPerc )                                               {pinNum = 0;}
+        }
+        let marker = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: mapPins[pinNum]}).bindPopup( summary[i] ).addTo(map);
+        marker.on('mouseover', function(e) {this.openPopup();});
+        marker.on('mouseout', function(e) {this.closePopup();});
+        markers.addLayer(marker);
+    }
+
+    function setSummary(i, energyTotalEquation) {
+        setData(i);
+        summary[i] = arraySum[i].node_name + '<br> Energy Produced: ' + produce + '<br> Energy Demand:  ' + demand + '<br> Outflow: ' + outflow  + '<br> Inflow: ' + totInflow +'<br> Energy Total: ' + energyTotalEquation + '<br> Population Served:  ' + arraySum[i].node_popServe;
+    }
+
 	/**************************FUNCTION EXECUTION***************************************/
 	let map_markers = mapMarkers();
 	createMarkerDisplay();
