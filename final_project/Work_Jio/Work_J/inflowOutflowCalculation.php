@@ -22,6 +22,7 @@ function InOutFlowCal($mysqli) { //gets acronym name, and mysqli data.
 	$result = $mysqli2->query($sql) or
 		die("Something went wrong with $sql".$mysqli2->error);
 	//$data the sql result ($data will be each node) iterates through each node
+    //{[{}],[{}]}
 	while ($data=$result->fetch_array(MYSQLI_NUM))
 	{
 		$jsonInfo = $data[1];
@@ -49,6 +50,40 @@ function InOutFlowCal($mysqli) { //gets acronym name, and mysqli data.
 		die("Something went wrong with $sql2".$mysqli2->error);
 	}
 }
+
+?>
+    <script type="text/javascript">
+        //take array sum
+        //for each array sum read gridlist
+        //for each gridlist value manage out and in flow
+        //for each array sum update array sum total inflow and outflow
+        function FlowCalc(marker) {
+            let neighbor_list = JSON.parse(marker.node_connect);
+
+            const totalFlow = neighbor_list.gridList
+                .map(neighbor => calculateNeighbor(neighbor))
+                .reduce((acc, cur) => {
+                        return {
+                            inflow: acc.inflow + cur.inflow,
+                            outflow: acc.outflow + cur.outflow
+                        };
+                    },
+                    {inflow: 0, outflow: 0}
+                );
+
+            marker.node_totalInflow = totalFlow.inflow;
+            marker.node_totalOutflow = totalFlow.outflow;
+        }
+
+        function calculateNeighbor(neighbor) {
+            const flow = Number(JSON.parse(neighbor).value.replace(',', ''));
+
+            return flow > 0 ?
+                { outflow: flow, inflow: 0 } :
+                { outflow: 0, inflow: flow };
+        }
+    </script>
+<?php
 //HANDLES THE ACTUAL MATH AND DATA SIMULATION
 //RECURSION HAPPENS HERE
 //THIS GOES THROUGH THE DB AND CHECKS THE NODE CONNECTIONS AND HOW THEY ARE AFFECTED
@@ -273,6 +308,11 @@ function greyMarkerStatus($value_acronym, $mysqli) {
 		die("Something went wrong with $sql".$mysqli->error);	
 }
 
+?>
+    <script type="text/javascript">
+
+    </script>
+<?php
 
 function revertMarkerStatus($value_acronym, $mysqli) {
 	//SELECTS EVERYTHING FROM STATIC TABLE

@@ -49,12 +49,12 @@ $sum =  getNodeData($mysqli);
 	let arraySum = <?php echo json_encode($sum); ?>; //echos out 'Array's contents maybe for loop to get all of data? maybe?
     let nodeList = <?php echo json_encode($sum); ?>;
     let summary = [];
-    let mapPins = mapMarkers();
+    let mapPins = setMapMarkers();
     let markers = [];
     let produce, totInflow, demand, outflow;//globals
 
 
-	function mapMarkers() {
+	function setMapMarkers() {
 		let MapIcon = L.Icon.extend({
 			options: {
 				iconSize: [30, 30],
@@ -121,9 +121,22 @@ $sum =  getNodeData($mysqli);
         }
         let marker = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: mapPins[pinNum]}).bindPopup(summary[i]);
         marker.on('click', function(e) {
-            console.log('Curr = ' + arraySum[i].node_active);
-            arraySum[i].node_active == 1 ? arraySum[i].node_active = 0 : arraySum[i].node_active = 1;
-            markers[i] = NaN;
+            console.log('Curr = ' + arraySum[i].node_active)
+            if(arraySum[i].node_active == 1) {
+                arraySum[i].node_active = 0;
+                arraySum[i].node_statusPerc = 0;
+                arraySum[i].node_totalOutflow = 0;
+                arraySum[i].pow_produce = 0;
+            }
+            else {
+                arraySum[i].node_active = 1;
+                arraySum[i].node_active = nodeList[i].node_active;
+                arraySum[i].node_statusPerc = nodeList[i].node_statusPerc;
+                arraySum[i].node_totalOutflow = nodeList[i].node_totalOutflow;
+                arraySum[i].pow_produce = nodeList[i].pow_produce;
+            }
+
+            setSummary(i, getEnergyTotal(i));
             setPinStatus(i);
         });
         marker.on('mouseover', function(e) {this.openPopup();});
@@ -175,24 +188,16 @@ $sum =  getNodeData($mysqli);
             let nodeLng = node.node_lon;
             let nodeConnect = nodeList[i].node_connect;
             nodeConnect = JSON.parse(nodeConnect);
-            //console.log("nodeConnect:", nodeConnect);
-            //console.log("out of loop");
             for (let j = 0; j < nodeConnect.gridList.length; j++) {
-                // console.log("in loop");
-                // console.log("Connecting to node: " + nodeConnect.gridList[j].name);
                 let connectedNode = nodeList.find((item) => item.node_acronym === nodeConnect.gridList[j].name);
-                //console.log("found node");
 
                 if (connectedNode) {
                     let connectedNodeLat = connectedNode.node_lat;
                     let connectedNodeLng = connectedNode.node_lon;
 
-
                     // add a polyline to map with the nodes longitude and latitude
                     let latlngs = [[nodeLat, nodeLng], [connectedNodeLat, connectedNodeLng]];
                     let polyline = L.polyline(latlngs, { color: 'blue' }).addTo(map);
-                    //console.log(latlngs);
-
                 }
             }
         }
