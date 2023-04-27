@@ -127,7 +127,6 @@ $sum =  getNodeData($mysqli);
                 arraySum[i].node_statusPerc = 0;
                 arraySum[i].node_totalOutflow = 0;
                 arraySum[i].pow_produce = 0;
-                console.log('Clicked ' + i);
 
             }
             else {
@@ -136,9 +135,8 @@ $sum =  getNodeData($mysqli);
                 arraySum[i].node_statusPerc = nodeList[i].node_statusPerc;
                 arraySum[i].node_totalOutflow = nodeList[i].node_totalOutflow;
                 arraySum[i].pow_produce = nodeList[i].pow_produce;
-                console.log('Clicked ' + i);
             }
-
+            map.removeLayer(markers[i]);
             setSummary(i, getEnergyTotal(i));
             setPinStatus(i);
         });
