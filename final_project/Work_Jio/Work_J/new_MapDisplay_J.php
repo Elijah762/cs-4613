@@ -49,12 +49,12 @@ $sum =  getNodeData($mysqli);
 	let arraySum = <?php echo json_encode($sum); ?>; //echos out 'Array's contents maybe for loop to get all of data? maybe?
     let nodeList = <?php echo json_encode($sum); ?>;
     let summary = [];
-    let mapPins = mapMarkers();
+    let mapPins = setMapMarkers();
     let markers = [];
     let produce, totInflow, demand, outflow;//globals
 
 
-	function mapMarkers() {
+	function setMapMarkers() {
 		let MapIcon = L.Icon.extend({
 			options: {
 				iconSize: [30, 30],
@@ -188,24 +188,16 @@ $sum =  getNodeData($mysqli);
             let nodeLng = node.node_lon;
             let nodeConnect = nodeList[i].node_connect;
             nodeConnect = JSON.parse(nodeConnect);
-            //console.log("nodeConnect:", nodeConnect);
-            //console.log("out of loop");
             for (let j = 0; j < nodeConnect.gridList.length; j++) {
-                // console.log("in loop");
-                // console.log("Connecting to node: " + nodeConnect.gridList[j].name);
                 let connectedNode = nodeList.find((item) => item.node_acronym === nodeConnect.gridList[j].name);
-                //console.log("found node");
 
                 if (connectedNode) {
                     let connectedNodeLat = connectedNode.node_lat;
                     let connectedNodeLng = connectedNode.node_lon;
 
-
                     // add a polyline to map with the nodes longitude and latitude
                     let latlngs = [[nodeLat, nodeLng], [connectedNodeLat, connectedNodeLng]];
                     let polyline = L.polyline(latlngs, { color: 'blue' }).addTo(map);
-                    //console.log(latlngs);
-
                 }
             }
         }
