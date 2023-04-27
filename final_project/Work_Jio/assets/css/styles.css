@@ -172,6 +172,16 @@ body {
     position: relative;
 }
 
+a.no-underline {
+    text-decoration: none;
+	color: #40469d;
+}
+
+a.no-underline:hover {
+    text-decoration: none;
+	color: #474a5e;
+}
+
 
 
 
