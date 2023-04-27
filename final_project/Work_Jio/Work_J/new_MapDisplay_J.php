@@ -127,6 +127,8 @@ $sum =  getNodeData($mysqli);
                 arraySum[i].node_statusPerc = 0;
                 arraySum[i].node_totalOutflow = 0;
                 arraySum[i].pow_produce = 0;
+                console.log('Clicked ' + i);
+
             }
             else {
                 arraySum[i].node_active = 1;
@@ -134,6 +136,7 @@ $sum =  getNodeData($mysqli);
                 arraySum[i].node_statusPerc = nodeList[i].node_statusPerc;
                 arraySum[i].node_totalOutflow = nodeList[i].node_totalOutflow;
                 arraySum[i].pow_produce = nodeList[i].pow_produce;
+                console.log('Clicked ' + i);
             }
 
             setSummary(i, getEnergyTotal(i));
