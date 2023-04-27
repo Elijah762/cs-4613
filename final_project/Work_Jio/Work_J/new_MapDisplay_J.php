@@ -121,8 +121,9 @@ $sum =  getNodeData($mysqli);
         }
         let marker = L.marker([arraySum[i].node_lat, arraySum[i].node_lon], {icon: mapPins[pinNum]}).bindPopup(summary[i]);
         marker.on('click', function(e) {
-            console.log('Curr = ' + arraySum[i].node_active)
-            arraySum[i].node_active == 1 ? arraySum[i].node_active = 0 : arraySum[i].node_active = 1
+            console.log('Curr = ' + arraySum[i].node_active);
+            arraySum[i].node_active == 1 ? arraySum[i].node_active = 0 : arraySum[i].node_active = 1;
+            markers[i] = NaN;
             setPinStatus(i);
         });
         marker.on('mouseover', function(e) {this.openPopup();});
