@@ -105,9 +105,9 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 	function mapMarkers() {
 		var MapIcon = L.Icon.extend({
 			options: {
-				iconSize: [30, 30],
-				iconAnchor: [12, 41],
-				popupAnchor: [1, -30]
+				iconSize: [20, 20],
+				iconAnchor: [10, 15],
+				popupAnchor: [1, -15]
 			}
 		});
 
@@ -649,8 +649,8 @@ $sum =  getNodeData($mysqli);//getNodeData(db_connect("senior_design_db"));
 	L.shapefile('/cs-4613/final_project/Work_Jio/assets/shapefiles/NERC_Regions_EIA.zip', {
     style: function(feature) {
         return {
-            color: 'red',
-            weight: 2
+            color: '#010101',
+            weight: 1.8
         };
     }
 }).addTo(map);
@@ -662,6 +662,37 @@ console.log("INSIDE NODE LIST SCRIPT");
     		console.error("nodeList is undefined or null");
     		return;
   		}
+
+		for (let i = 0; i < nodeList.length; i++) {
+			let node = nodeList[i];
+			let nodePercentage = node.node_statusPerc;
+			console.log("nodeStatusPerc: ", nodePercentage);
+
+			if (nodePercentage == 100) {
+				var blue_status = nodePercentage;
+			}
+			if (nodePercentage == 75 && nodePercentage <=99) {
+				var green_status = nodePercentage;
+			}
+			if (nodePercentage == 50 && nodePercentage <=74) {
+				var yellow_status = nodePercentage;
+			}
+			if (nodePercentage == 25 && nodePercentage <=49) {
+				var orange_status = nodePercentage;
+			}
+			if (nodePercentage == 0 && nodePercentage <=24) {
+				var red_status = nodePercentage;
+			}
+			if (nodePercentage == NaN) {
+				console.log("empty power percentage detected for node");
+			}
+		}
+		console.log("status of red percentage: ", red_status
+					+ "\nstatus of orange percentage: ", orange_status
+					+ "\nstatus of yellow nodes: ", yellow_status
+					+ "\nstatus of green percentage: ", green_status
+					+ "\nstatus of blue percentage: ", blue_status);
+
   		for (let i = 0; i < nodeList.length; i++) {
     		let node = nodeList[i];
     		let nodeLat = node.node_lat;
@@ -669,9 +700,9 @@ console.log("INSIDE NODE LIST SCRIPT");
     		let nodeConnect = nodeList[i].node_connect;
 			nodeConnect = JSON.parse(nodeConnect);
 			console.log("nodeConnect:", nodeConnect);
-			console.log("out of loop");
+			//console.log("out of loop");
     		for (let j = 0; j < nodeConnect.gridList.length; j++) {
-				console.log("in loop");
+				//console.log("in loop");
 				console.log("Connecting to node: " + nodeConnect.gridList[j].name);
       			let connectedNode = nodeList.find((item) => item.node_acronym === nodeConnect.gridList[j].name);
 				console.log("found node");
@@ -679,16 +710,44 @@ console.log("INSIDE NODE LIST SCRIPT");
       			if (connectedNode) {
         			let connectedNodeLat = connectedNode.node_lat;
         			let connectedNodeLng = connectedNode.node_lon;
-					
 
         			// add a polyline to map with the nodes longitude and latitude
 					let latlngs = [[nodeLat, nodeLng], [connectedNodeLat, connectedNodeLng]];
-      				let polyline = L.polyline(latlngs, { color: 'blue' }).addTo(map);
+
+					if (connectedNode.node_statusPerc == red_status) {
+						let polyline = L.polyline(latlngs, { color: '#FF0000', weight: 1.5 }).addTo(map);
+						console.log("red percentage node connected");
+					}
+					if (connectedNode.node_statusPerc == orange_status) {
+						let polyline = L.polyline(latlngs, { color: '#FFA500', weight: 1.5 }).addTo(map);
+						console.log("orange percentage node connected");
+					}
+					if (connectedNode.node_statusPerc == yellow_status) {
+						let polyline = L.polyline(latlngs, { color: '#FFFF00', weight: 1.5 }).addTo(map);
+						console.log("yellow percentage node connected");
+					}
+					if (connectedNode.node_statusPerc == green_status) {
+						let polyline = L.polyline(latlngs, { color: '#00FF00', weight: 1.5 }).addTo(map);
+						console.log("green percentage node connected");
+					}
+					if (connectedNode.node_statusPerc == blue_status) {
+						let polyline = L.polyline(latlngs, { color: '#0000FF', weight: 1.5 }).addTo(map);
+						console.log("blue percentage node connected");
+					}
+					if (connectedNode.node_statusPerc == null) {
+						console.log("connected node status percentage is null");
+					}
+
 					console.log(latlngs);
 
       			}		
     		}
   		}
+	}
+
+	function mapControlSelectMenu() {
+		
+
 	}
 	getNodeConnections(map, nodeList);
 </script>
