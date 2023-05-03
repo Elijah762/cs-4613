@@ -51,21 +51,14 @@
 </head>
 <body>
 	<div>
-		<nav class="navbar navbar-expand-lg navbar-light py-2 fixed-top"
+		<nav class="navbar navbar-expand-lg "
 			style="background-color: #333333;">
 			<div class="container-fluid">
-
-
 				<a href="mapDev.php"> <img class="img-fluid d-flex ps-4 justify-content-md-start"
 					src="../assets/img/nsa_img2.2.png"
 					alt="" >
 				</a> 
-
-				<h4 class="navbar-title text-white">NATIONAL SECURITY AGENCY / PROJECT NUERON</h4>
-				
-
-	
-
+				<h5 class="navbar-title text-white">NATIONAL SECURITY AGENCY / PROJECT NUERON</h5>
 				<ul class="navbar-nav">
 					<li class="nav-item">
 						<a class="nav-link text-white"
@@ -83,46 +76,24 @@
 			</div>
 		</nav>
 	</div> 
-	<br>
-	
-
-    <!--<div class="container pt-3 mt-5 align-content-center"> -->
-
-			
-    <div class="container-fluid pt-4 mt-5" id="table">
 
     	<div class="row no-gutters mr-3" >
-			<!-- TRIED TO MAKE IT COMPATIBLE WITH SMALLER SCREENS/ REDUCE MAP SIZE ---->
-			<div class="col-xl-2" style="height: 1150px; background-color: #f2efe9;" >
+			<div class="col-sm" style="background-color: #f2efe9;" >
             	<div class="row">
-					<h5> <b>Simulation Summary</b> </h5>
+					<h5><center><b>Simulation Summary</center></b></h5>
+					<?php include('new_Summary_J.php');?>
 				</div>
-				<!--FIGURE OUT SCROLL BAR FOR FUTURE USE -->
-				<!--<div class="row" id="#scrollSummary" class="overflow-auto">
-					<div data-bs-spy="scroll" data-bs-target="#scrollSummary" data-bs-offset="0" class="scrollspy-example" tabindex="0"> -->
-				
-				<!-- HANDLES SIMULATION SUMMARY -->	
-				<?php include('new_Summary_J.php');?>			
-				<!-- Needs scroll bar functionality for large amounts of data and nodes -->
-				<!--</div> 
-				</div>-->
 			</div>
-			<div class="col-xl-8" style="background-color: #f2efe9;">
-				<!-- <div class="row text-center">
-					<h3><b>Simulation Map </b> </h3>
-				</div> -->
+			<div class="col-xl-9" style="background-color: #f2efe9;">
 				<div class="row">       
 					 <div id="map"> 
-						 
-					<!-- HANDLES SIMULATION MAP -->	
 						<?php include_once('new_MapDisplay_J.php');?>
-						 
 					</div>
 				</div>	
 			</div>
-			<div class="col-xl-2" style="background-color: #f2efe9;">
+			<div class="col-sm" style="background-color: #f2efe9;">
             	<div class="row">
-					<h5><b>Simulation Key</b> </h5> 
+					<h5><b><center>Simulation Key</center></b></h5> 
 				</div>
 				<div class="row">
 					<ul>
@@ -174,12 +145,10 @@
                     
                <?php include_once('displayFunctions.php');?>
              
-                   
 				</script>
      
 			</div>
 		</div>
-	</div>
 	<?php
 			$mysqli->close();
 	?>
