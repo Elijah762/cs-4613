@@ -136,6 +136,7 @@ $sum =  getNodeData($mysqli);
                 arraySum[i].node_totalOutflow = nodeList[i].node_totalOutflow;
                 arraySum[i].pow_produce = nodeList[i].pow_produce;
             }
+
             map.removeLayer(markers[i]);
             setSummary(i, getEnergyTotal(i));
             setPinStatus(i);

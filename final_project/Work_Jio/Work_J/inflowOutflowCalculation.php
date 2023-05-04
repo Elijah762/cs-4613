@@ -82,6 +82,10 @@ function InOutFlowCal($mysqli) { //gets acronym name, and mysqli data.
                 { outflow: flow, inflow: 0 } :
                 { outflow: 0, inflow: flow };
         }
+
+        function mapSimulation(clickedNode, nodeList) {
+
+        }
     </script>
 <?php
 //HANDLES THE ACTUAL MATH AND DATA SIMULATION
@@ -102,7 +106,6 @@ function mapSimulation($value_acronym,$arrayQueue,$index, $mysqli) {
 	$resultTmp = $mysqli->query($sql) or
 		die("Something went wrong with $sql".$mysqli->error);
 	$result = $resultTmp->fetch_assoc();
-	/*****************/
 	$nodeAcronym = $result['node_acronym'];
 	$nodeConnectGridList = $result['node_connect'];
 	$nodeProduction = intval($result['pow_produce']);
@@ -112,13 +115,7 @@ function mapSimulation($value_acronym,$arrayQueue,$index, $mysqli) {
 	$nodeTotalOutflow = intval($result['node_totalOutflow']);
 	$nodePercentage = intval($result['node_statusPerc']);
 	$nodeActive = $result['node_active'];
-/*	
-	*/
-	
-	//END SIMILATION IF PERCENTAGE DOES NOT CHANGE
-	
-	
-	/*******************/
+
 	if (($nodeProduction + $nodeTotalInflow) >= ($nodeDemand + $nodeTotalOutflow)) {
 		$index++;
 		InOutFlowCal($mysqli);
@@ -142,28 +139,10 @@ function mapSimulation($value_acronym,$arrayQueue,$index, $mysqli) {
 		$num = 0;
 		/***********************ERROR IS HERE****************************/
 		$nodeConnectArray = json_decode($nodeConnectGridList, true);
-		/**************************************************/
-		//	echo "<br>";
-		//	echo "<br>";
-		//echo 'NODECONNECTARRAY';
-		//var_dump($nodeConnectArray);
-		//echo "<br>";
-		//echo 'FILE: ' . $nodeConnectArray ;
-		
 		if(round($newPercentage,3) != round($nodePercentage,3) or $_GET['name'] == $nodeAcronym ){
 			while ($num < count($nodeConnectArray['gridList'])) {
-				//LOOP INSIDE gridlist connection and do stuff
 				$value = intval($nodeConnectArray['gridList'][$num]['value']);
 				$name = $nodeConnectArray['gridList'][$num]['name'];
-				//echo "Number: $num";
-				//echo "<br>";
-				//echo 'NAME CONTENTS: '. var_dump($name);
-				//var_dump($name);
-				//echo "<br>";
-				//echo "VALUE BELOW";
-				//var_dump($value);
-				//echo "<br>";
-				//echo '  HERE NAME: '.$name;
 				if ($value > 0) {
 					$value = $value * ($newPercentage/100);
 					$nodeConnectArray['gridList'][$num]['value'] = $value;
@@ -177,76 +156,32 @@ function mapSimulation($value_acronym,$arrayQueue,$index, $mysqli) {
 					$result2 = $resultTmp2->fetch_assoc();
 					$nodeConnectGridList2 = $result2['node_connect'];
 
-					/*******************************************/
 					$nodeConnectArray2 = json_decode($nodeConnectGridList2, true);
-					/*******************************************/
-					//echo 'GRIDLIST :';
-					//var_dump($nodeConnectGridList2);
-					//echo 'nodeConnectArray2 :';
-					//var_dump($nodeConnectArray2);
-					//echo "<br>";
-					//echo 'HERE: '. $nodeConnectArray2['gridList'];
-					$gridListContent = $nodeConnectArray2['gridList'];
-					//$gridListContent = json_decode($gridListContent, true);
-					for ($i = 0; $i < count($gridListContent); $i++) {
-						//echo "HELLO!!";
 
+					$gridListContent = $nodeConnectArray2['gridList'];
+					for ($i = 0; $i < count($gridListContent); $i++) {
 						if ($nodeAcronym == $gridListContent[$i]['name']) {
 							$gridListContent[$i]['value'] = round($value,0);
 							$updatedValue = $gridListContent[$i]['value'];
 
 							$updatedValue = $updatedValue * (-1);
-							/*
-							echo "<br>";
-							echo "<br>";
-							echo '$node_acronym: '.$nodeAcronym;
-							echo "<br>";
-							echo '$VALUE: '.round($value,0);
-							echo "<br>";
-							echo '$newPercentage: '.round($newPercentage,0);
-							echo "<br>";
-							echo "<br>";
-							echo "<br>";
-							echo 'BEFORE UPDATEJSON NAME CONTENTS: '. $name;
-							echo "<br>";*/
 							$insideJson = $gridListContent;
 							$insideJson = json_encode($insideJson);
-							//$insideJson = json_decode($insideJson, true); DO NOT DECODE INSIDEJSON
 
 							$updateDBJSON = json_encode($nodeConnectArray2);
-							//var_dump();
-							//echo $updateDBJSON;
-						/*	echo "UpdatedDBJSON: ".$updateDBJSON;
-							echo "<br>";
-							echo "InsideJson: ".$insideJson;
-							echo "<br>";
-							echo "InsideJson[0]: ".$insideJson[0];
-							echo "<br>";
-							echo 'AFTER JSON NAME CONTENTS: *'. $name.'*';
-							echo "<br>";
-							echo "<br>";*/
+
 							$path = '$.gridList['.$i.'].value';
-							//JSON_REPLACE(`node_connect`, "$.gridList", $insideJson)
 							$sql3 = "UPDATE `node_info` 
 									SET `node_connect`=JSON_REPLACE(`node_connect`, '$path', '$updatedValue') 
 									WHERE `node_acronym` = '$name'";
 
-							//$updateSQL = JSON_REPLACE(`node_connect`, "$") //$updateDBJSON['gridList'];
-							//$sql = "UPDATE `node_info` SET `node_connect`='$updateDBJSON' WHERE `node_acronym` = '$name'";
 							$result3 = $mysqli->query($sql3) or
 								die("Something went wrong with $sql3".$mysqli->error);
-
-							//$sql3 = "UPDATE `node_info` 
-							//		SET `node_connect`=JSON_REPLACE(`node_connect`, '$.gridList', '$insideJson') 
-							//		WHERE `node_acronym` = '$name'";
-
-
 						}
 					}
 
 
 					$path = '$.gridList['.$num.'].value';
-					//JSON_REPLACE(`node_connect`, "$.gridList", $insideJson)
 					$sql4 = "UPDATE `node_info` 
 							SET `node_connect`=JSON_REPLACE(`node_connect`, '$path', '$value')
 							WHERE `node_acronym` = '$nodeAcronym'";
@@ -254,7 +189,6 @@ function mapSimulation($value_acronym,$arrayQueue,$index, $mysqli) {
 										die("Something went wrong with $sql4".$mysqli->error);
 
 					$nodeTotalOutflow = $nodeTotalOutflow + $value;
-					//$sql = "UPDATE `node_info` SET `node_active`='0' WHERE `node_acronym` = '$value_acronym'";
 				}
 				$num++;
 			}//END OF WHILE LOOP
@@ -271,21 +205,8 @@ function mapSimulation($value_acronym,$arrayQueue,$index, $mysqli) {
 		$index++;
 		mapSimulation($value_acronym,$arrayQueue,$index, $mysqli);
 	}
-
-	
-	//$data the sql result ($data will be each node) iterates through each node
-	/*while ($data=$result->fetch_array(MYSQLI_NUM)) {
-		if ($data['node_acronym'] == $value_acronym) {
-			for ($j = 0; $j < count($data['node_connect']); $j++) {
-				//select data, read data, modify it into new values, then update it back into DB
-			}
-		}
-	}
-	*/
-	/****************************************************/
-	//	RECURSION HAPPENS HERE
-	/****************************************************/
 }
+
 //CREATE ERROR CHECK LATER
 function greyMarkerStatus($value_acronym, $mysqli) {
 	//SETS ACTIVE STATUS TO OFF '0'
