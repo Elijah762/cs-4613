@@ -193,43 +193,16 @@ $sum =  getNodeData($mysqli);
             for (let j = 0; j < nodeConnect.gridList.length; j++) {
                 let connectedNode = nodeList.find((item) => item.node_acronym === nodeConnect.gridList[j].name);
 
-      			if (connectedNode) {
-        			let connectedNodeLat = connectedNode.node_lat;
-        			let connectedNodeLng = connectedNode.node_lon;
+                if (connectedNode) {
+                    let connectedNodeLat = connectedNode.node_lat;
+                    let connectedNodeLng = connectedNode.node_lon;
 
-        			// add a polyline to map with the nodes longitude and latitude
-					let latlngs = [[nodeLat, nodeLng], [connectedNodeLat, connectedNodeLng]];
-
-					if (connectedNode.node_statusPerc == red_status) {
-						let polyline = L.polyline(latlngs, { color: '#FF0000', weight: 1.5 }).addTo(map);
-						console.log("red percentage node connected");
-					}
-					if (connectedNode.node_statusPerc == orange_status) {
-						let polyline = L.polyline(latlngs, { color: '#FFA500', weight: 1.5 }).addTo(map);
-						console.log("orange percentage node connected");
-					}
-					if (connectedNode.node_statusPerc == yellow_status) {
-						let polyline = L.polyline(latlngs, { color: '#FFFF00', weight: 1.5 }).addTo(map);
-						console.log("yellow percentage node connected");
-					}
-					if (connectedNode.node_statusPerc == green_status) {
-						let polyline = L.polyline(latlngs, { color: '#00FF00', weight: 1.5 }).addTo(map);
-						console.log("green percentage node connected");
-					}
-					if (connectedNode.node_statusPerc == blue_status) {
-						let polyline = L.polyline(latlngs, { color: '#0000FF', weight: 1.5 }).addTo(map);
-						console.log("blue percentage node connected");
-					}
-					if (connectedNode.node_statusPerc == null) {
-						console.log("connected node status percentage is null");
-					}
-
-					console.log(latlngs);
-
-      			}
-    		}
-  		}
-	}
+                    // add a polyline to map with the nodes longitude and latitude
+                    let latlngs = [[nodeLat, nodeLng], [connectedNodeLat, connectedNodeLng]];
+                    let polyline = L.polyline(latlngs, { color: 'blue' }).addTo(map);
+                }
+            }
+        }
 
     createMarkerDisplay();
 
