@@ -57,9 +57,9 @@ $sum =  getNodeData($mysqli);
 	function setMapMarkers() {
 		let MapIcon = L.Icon.extend({
 			options: {
-				iconSize: [30, 30],
-				iconAnchor: [12, 41],
-				popupAnchor: [1, -30]
+				iconSize: [20, 20],
+				iconAnchor: [10, 15],
+				popupAnchor: [1, -15]
 			}
 		});
         let map_icons = [
@@ -193,30 +193,53 @@ $sum =  getNodeData($mysqli);
             for (let j = 0; j < nodeConnect.gridList.length; j++) {
                 let connectedNode = nodeList.find((item) => item.node_acronym === nodeConnect.gridList[j].name);
 
-                if (connectedNode) {
-                    let connectedNodeLat = connectedNode.node_lat;
-                    let connectedNodeLng = connectedNode.node_lon;
+      			if (connectedNode) {
+        			let connectedNodeLat = connectedNode.node_lat;
+        			let connectedNodeLng = connectedNode.node_lon;
 
-                    // add a polyline to map with the nodes longitude and latitude
-                    let latlngs = [[nodeLat, nodeLng], [connectedNodeLat, connectedNodeLng]];
-                    let polyline = L.polyline(latlngs, { color: 'blue' }).addTo(map);
-                }
-            }
-        }
-    }
+        			// add a polyline to map with the nodes longitude and latitude
+					let latlngs = [[nodeLat, nodeLng], [connectedNodeLat, connectedNodeLng]];
 
+					if (connectedNode.node_statusPerc == red_status) {
+						let polyline = L.polyline(latlngs, { color: '#FF0000', weight: 1.5 }).addTo(map);
+						console.log("red percentage node connected");
+					}
+					if (connectedNode.node_statusPerc == orange_status) {
+						let polyline = L.polyline(latlngs, { color: '#FFA500', weight: 1.5 }).addTo(map);
+						console.log("orange percentage node connected");
+					}
+					if (connectedNode.node_statusPerc == yellow_status) {
+						let polyline = L.polyline(latlngs, { color: '#FFFF00', weight: 1.5 }).addTo(map);
+						console.log("yellow percentage node connected");
+					}
+					if (connectedNode.node_statusPerc == green_status) {
+						let polyline = L.polyline(latlngs, { color: '#00FF00', weight: 1.5 }).addTo(map);
+						console.log("green percentage node connected");
+					}
+					if (connectedNode.node_statusPerc == blue_status) {
+						let polyline = L.polyline(latlngs, { color: '#0000FF', weight: 1.5 }).addTo(map);
+						console.log("blue percentage node connected");
+					}
+					if (connectedNode.node_statusPerc == null) {
+						console.log("connected node status percentage is null");
+					}
 
-	/**************************FUNCTION EXECUTION***************************************/
+					console.log(latlngs);
+
+      			}
+    		}
+  		}
+	}
+
     createMarkerDisplay();
 
-	L.shapefile('/cs-4613/final_project/Work_Jio/assets/shapefiles/NERC_Regions_EIA.zip', {
+    L.shapefile('/cs-4613/final_project/Work_Jio/assets/shapefiles/NERC_Regions_EIA.zip', {
         style: function(feature) {
             return {
-                color: 'red',
+                color: 'black',
                 weight: 2
             };
         }
     }).addTo(map);
-
 	getNodeConnections(map, nodeList);
 </script>

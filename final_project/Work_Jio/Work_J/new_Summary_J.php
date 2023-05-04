@@ -14,14 +14,14 @@
 								
 	//**************************************THIRD LINE IN DISPLAYED SUMMARY*******************************************//
     echo '<br>';
-	echo '<p><b>Total Energy Produced in Simulation: </b></p>'; //maybe useful
+	echo '<p><b><center>Total Energy Produced in Simulation: </center></b></p>'; //maybe useful
 	$result_Gained_SQL= "SELECT SUM(`pow_produce`) AS value_sum FROM `node_info`;";
 	$result_Gained = $mysqli->query($result_Gained_SQL) or
 		die("Something went wrong with $result_Gained_SQL".$mysqli->error);
 
 			$row = mysqli_fetch_assoc($result_Gained); 
 			$sum = $row['value_sum'];
-			echo '<p><li>' .number_format($sum). ' MW/h</li></p>';
+			echo '<p><li><center>' .number_format($sum). ' MW/h</center></li></p>';
 
 
 	//************************************FOURTH LINE IN DISPLAYED SUMMARY******************************************//		

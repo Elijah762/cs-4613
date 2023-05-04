@@ -3,6 +3,7 @@
 <html>
 <head>
 <title> Project Neuron </title>
+<link rel="icon" href="../assets/img/nsa_img2.1.png" type="image/x-icon">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -69,7 +70,7 @@
 					</li>
 					<li class="nav-item">
 						<a class="nav-link text-white"
-						href="sources.php">Sources</a>
+						href="purpose.php">Purpose</a>
 					</li>
 				</ul>
 			</div>
@@ -88,10 +89,23 @@
 	</div>
 
 	<div class="white-section">
-		<h2></h2>
-		
-	</div>
-			
+		<div class="sections">
+			<div class="leftbox inner-section">
+				<div class="section-text">
+				<h2><a href="https://atlas.eia.gov/apps/5039a1a01ec34b6bbf0ab4fd57da5eb4/explore" class="no-underline">ATLAS</a></h2>
+				"The U.S. Energy Atlas is a comprehensive reference for data and interactive maps of energy infrastructure and resources in the United States."	
+				</div>
+				<div class="section-text">
+					<h2><a href="https://www.fema.gov/disaster/current" class="no-underline">FEMA</a></h2>
+				"Federal Emergency Management Agency is a government agency where people can find resources and current information, including how to apply for federal assistance, during ongoing major disaster declarations."
+				</div>
+				<div class="section-text">
+					<h2><a href="https://www.eia.gov/electricity/gridmonitor/dashboard/electric_overview/US48/US48#/status?end=20160721T00" class="no-underline">EIA</a></h2>
+				"data collection provides a centralized and comprehensive source for hourly operating data about the high-voltage bulk electric power grid in the Lower 48 states. We collect the data from the electricity balancing authorities (BAs) that operate the grid."
+				</div>
+			</div>
+		</div>
+	</div>		
     
 </body> 
 </html>

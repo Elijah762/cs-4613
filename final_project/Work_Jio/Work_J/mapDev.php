@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>Project Neuron</title>
+<link rel="icon" href="../assets/img/nsa_img2.1.png" type="image/x-icon">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +20,7 @@
      integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
      crossorigin=""></script>
     <script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js"></script>
-	
+
 	
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
@@ -51,21 +52,14 @@
 </head>
 <body>
 	<div>
-		<nav class="navbar navbar-expand-lg navbar-light py-2 fixed-top"
+		<nav class="navbar navbar-expand-lg "
 			style="background-color: #333333;">
 			<div class="container-fluid">
-
-
 				<a href="mapDev.php"> <img class="img-fluid d-flex ps-4 justify-content-md-start"
 					src="../assets/img/nsa_img2.2.png"
 					alt="" >
 				</a> 
-
-				<h4 class="navbar-title text-white">NATIONAL SECURITY AGENCY / PROJECT NUERON</h4>
-				
-
-	
-
+				<h5 class="navbar-title text-white">NATIONAL SECURITY AGENCY / PROJECT NUERON</h5>
 				<ul class="navbar-nav">
 					<li class="nav-item">
 						<a class="nav-link text-white"
@@ -82,47 +76,25 @@
 				</ul>
 			</div>
 		</nav>
-	</div> 
-	<br>
-	
-
-    <!--<div class="container pt-3 mt-5 align-content-center"> -->
-
-			
-    <div class="container-fluid pt-4 mt-5" id="table">
+	</div>
 
     	<div class="row no-gutters mr-3" >
-			<!-- TRIED TO MAKE IT COMPATIBLE WITH SMALLER SCREENS/ REDUCE MAP SIZE ---->
-			<div class="col-xl-2" style="height: 1150px; background-color: #f2efe9;" >
+			<div class="col-sm" style="background-color: #f2efe9;" >
             	<div class="row">
-					<h5> <b>Simulation Summary</b> </h5>
+					<h5><center><b>Simulation Summary</center></b></h5>
+					<?php include('new_Summary_J.php');?>
 				</div>
-				<!--FIGURE OUT SCROLL BAR FOR FUTURE USE -->
-				<!--<div class="row" id="#scrollSummary" class="overflow-auto">
-					<div data-bs-spy="scroll" data-bs-target="#scrollSummary" data-bs-offset="0" class="scrollspy-example" tabindex="0"> -->
-				
-				<!-- HANDLES SIMULATION SUMMARY -->	
-				<?php include('new_Summary_J.php');?>			
-				<!-- Needs scroll bar functionality for large amounts of data and nodes -->
-				<!--</div> 
-				</div>-->
 			</div>
-			<div class="col-xl-8" style="background-color: #f2efe9;">
-				<!-- <div class="row text-center">
-					<h3><b>Simulation Map </b> </h3>
-				</div> -->
+			<div class="col-xl-9" style="background-color: #f2efe9;">
 				<div class="row">       
-					 <div id="map"> 
-						 
-					<!-- HANDLES SIMULATION MAP -->	
+					 <div id="map">
 						<?php include_once('new_MapDisplay_J.php');?>
-						 
 					</div>
 				</div>	
 			</div>
-			<div class="col-xl-2" style="background-color: #f2efe9;">
+			<div class="col-sm" style="background-color: #f2efe9;">
             	<div class="row">
-					<h5><b>Simulation Key</b> </h5> 
+					<h5><b><center>Simulation Key</center></b></h5>
 				</div>
 				<div class="row">
 					<ul>
@@ -157,6 +129,24 @@
 					<!---<button class="btn-2"> RESET2 </button> --->
 					<!--<button type="button" id="resetMap" class="btn btn-danger relative; left:80px; top:2px;" onclick="func(event)">RESET</button> -->
 				</div>
+				<script type="text/javascript">
+                    
+                 $(document).ready(function(){  
+				    $('.btn-1').click(function() {
+					$.ajax({
+						type: "POST",
+						url: "displayFunctions.php",
+						data: {'input': "Success" }
+						}).done(function() {
+							alert('Reset Successful');
+							window.location.reload();
+						});
+					});
+                 });
+                    
+               <?php include_once('displayFunctions.php');?>
+             
+				</script>
      
 			</div>
 		</div>
